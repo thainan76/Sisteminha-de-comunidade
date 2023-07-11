@@ -21,9 +21,11 @@ http.interceptors.request.use((config) => {
 http.interceptors.response.use((response) => {
   return response;
 }, (error) => {
-  if (error.response.status === 401) {
-    storeUser.commit('setAuth', null);
-    window.location = '/login';
+  if (error.response != undefined) {
+    if (error.response.status === 401) {
+      storeUser.commit('setAuth', null);
+      window.location = '/login';
+    }
   }
 
   return Promise.reject(error)

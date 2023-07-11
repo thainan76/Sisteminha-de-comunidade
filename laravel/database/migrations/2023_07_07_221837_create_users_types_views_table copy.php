@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users_types_permissions', function (Blueprint $table) {
+        Schema::create('users_menu_views', function (Blueprint $table) {
             $table->id();
-            $table->string('menu');
+            $table->boolean('create')->default(true);
+            $table->boolean('update')->default(true);
+            $table->boolean('read')->default(true);
+            $table->boolean('delete')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_types_permissions');
+        Schema::dropIfExists('users_menu_views');
     }
 };

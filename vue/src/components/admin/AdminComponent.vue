@@ -151,6 +151,12 @@
       <!--end::Wrapper-->
     </div>
     <!--end::Page-->
+    <!--begin::Page loading(append to body)-->
+    <div v-if="loadingGlobal" class="page-loader d-flex flex-column align-items-center justify-content-center" :class="{ 'd-block': loadingGlobal, 'd-none': !loadingGlobal }">
+      <span class="spinner-border text-primary" role="status"></span>
+      <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
+    </div>
+    <!--end::Page loading-->
   </div>
 </template>
 
@@ -163,7 +169,9 @@ import SidebarMenuFooter from "./SidebarMenuFooter.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      loadingGlobal: true,
+    };
   },
   methods: {
     getInformationUser() {
@@ -192,6 +200,8 @@ export default {
           if (data.user.avatar) {
             this.styleAvatarBackground = `background: url(${data.user.avatar}); background-size: cover!important;`;
           }
+
+          this.loadingGlobal = false;
         })
         .catch((error) => {
           this.$notify({

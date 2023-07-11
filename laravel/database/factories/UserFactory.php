@@ -23,6 +23,7 @@ class UserFactory extends Factory
             'phone' => $this->faker->numerify('###########'),
             'cpf' => $this->faker->numerify('###########'),
             'avatar' => $this->faker->imageUrl(800, 800, null, true),
+            'id_users_types' => 2,
             'email_verified_at' => now(),
             'password' => '$2y$10$hlLIQsGMBlYobHnJKEzhPOLEwJVNL4pNF7SAbsJq7h1Mn7R6i565a', // password secret
             'remember_token' => Str::random(10),

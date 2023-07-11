@@ -6,7 +6,8 @@ import Admin from "./components/admin/AdminComponent.vue";
 import Dashboard from "./components/admin/dashboard/DashboardComponent.vue";
 import Users from "./components/admin/users/UsersComponent.vue";
 import UsersForm from "./components/admin/users/UsersFormComponent.vue";
-import UsersPermissionsForm from "./components/admin/users/usersPermissions/UsersPermissionsComponent.vue";
+import UsersPermissions from "./components/admin/users/usersPermissions/UsersPermissionsComponent.vue";
+import UsersPermissionsForm from "./components/admin/users/usersPermissions/UsersPermissionsFormComponent.vue";
 import MyProfile from "@/components/admin/myProfile/MyProfileComponent.vue";
 
 const routers = [
@@ -81,11 +82,24 @@ const routers = [
             },
             {
                 name: 'UsersPermissions',
+                path: 'permissions',
+                component: UsersPermissions,
+                meta: {
+                    requiresAuth: true,
+                },
+            },
+            {
+                name: 'UsersPermissionsCreate',
                 path: 'permissions/create',
                 component: UsersPermissionsForm,
-                params: {
-                    id: null
+                meta: {
+                    requiresAuth: true,
                 },
+            },
+            {
+                name: 'UsersPermissionsEdit',
+                path: 'permissions/edit/:id',
+                component: UsersPermissionsForm,
                 meta: {
                     requiresAuth: true,
                 },

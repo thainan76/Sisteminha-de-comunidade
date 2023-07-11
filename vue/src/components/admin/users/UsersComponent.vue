@@ -56,10 +56,11 @@
                     class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200"
                   >
                     <th class="min-w-50px"></th>
-                    <th class="min-w-200px">Nome</th>
-                    <th class="min-w-300px">Email</th>
-                    <th class="min-w-200px">Data de criação</th>
-                    <th class="min-w-100px"></th>
+                    <th class="min-w-150px">Nome</th>
+                    <th class="min-w-200px">Email</th>
+                    <th class="min-w-150px">Tipo usuário</th>
+                    <th class="min-w-50px">Data de criação</th>
+                    <th class="min-w-50px"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -71,12 +72,17 @@
                         data-kt-menu-attach="parent"
                         data-kt-menu-placement="bottom-end"
                       >
-                        <img v-if="user.avatar" :src="user.avatar" style="object-fit:cover;" />
+                        <img
+                          v-if="user.avatar"
+                          :src="user.avatar"
+                          style="object-fit: cover"
+                        />
                         <img v-else src="@/assets/media/avatars/blank.png" />
                       </div>
                     </td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
+                    <td>{{ user.userTypeName }}</td>
                     <td>
                       {{
                         $filters.moment(user.created_at).format("DD/MM/YYYY")

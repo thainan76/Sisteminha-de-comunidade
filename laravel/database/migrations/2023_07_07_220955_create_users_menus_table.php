@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users_types_views', function (Blueprint $table) {
+        Schema::create('users_menus', function (Blueprint $table) {
             $table->id();
-            $table->boolean('create')->default(false);
-            $table->boolean('update')->default(false);
-            $table->boolean('read')->default(false);
-            $table->boolean('delete')->default(false);
+            $table->string('menu');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_types_views');
+        Schema::dropIfExists('users_menus');
     }
 };

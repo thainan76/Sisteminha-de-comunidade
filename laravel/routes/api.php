@@ -41,6 +41,11 @@ Route::controller(UserController::class)->group(function () {
 
 
 Route::controller(PermissionController::class)->group(function () {
+    Route::get('/permissions/getMenus', 'getMenus');
     Route::get('/permissions/getTypes', 'getTypes');
+    Route::get('/permissions/getTypesSimplePaginate', 'getTypesSimplePaginate');
     Route::post('/permissions/getUsersTypesById', 'getUsersTypesById');
+    Route::put('/permissions/update', 'update');
+    Route::delete('/permissions/delete/{id}', 'delete');
+    Route::post('/permissions/create', 'create');
 });

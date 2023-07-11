@@ -192,6 +192,26 @@
               <!--end::Col-->
             </div>
             <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="row mb-6">
+              <!--begin::Label-->
+              <label class="col-lg-4 col-form-label fw-bold fs-6">
+                <span class="required">Tipo Usuário</span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Col-->
+              <div class="col-lg-8 fv-row">
+                <input
+                  type="text"
+                  v-model="user.userTypeName"
+                  disabled
+                  name="userTypeName"
+                  class="form-control form-control-lg form-control-solid"
+                />
+              </div>
+              <!--end::Col-->
+            </div>
+            <!--end::Input group-->
           </div>
           <!--end::Card body-->
           <!--begin::Actions-->
@@ -808,33 +828,33 @@ export default {
         })
         .catch((error) => {
           if (error.response != undefined) {
-              let data = error.response.data;
-              console.log(data);
-              if (data.message) {
-                this.$notify({
-                  type: "error",
-                  title: "Erro!",
-                  text: data.message,
-                  duration: 5000,
-                });
-
-                return;
-              }
-
+            let data = error.response.data;
+            console.log(data);
+            if (data.message) {
               this.$notify({
                 type: "error",
                 title: "Erro!",
-                text: data.error,
+                text: data.message,
                 duration: 5000,
               });
-            } else if (error) {
-              this.$notify({
-                type: "error",
-                title: "Erro",
-                text: error,
-                duration: 5000,
-              });
+
+              return;
             }
+
+            this.$notify({
+              type: "error",
+              title: "Erro!",
+              text: data.error,
+              duration: 5000,
+            });
+          } else if (error) {
+            this.$notify({
+              type: "error",
+              title: "Erro",
+              text: error,
+              duration: 5000,
+            });
+          }
         });
     },
 

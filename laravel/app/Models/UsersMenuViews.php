@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class UsersTypes extends Model
+class UsersMenuViews extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class UsersTypes extends Model
      *
      * @var string
      */
-    protected $table = 'users_types';
+    protected $table = 'users_menu_views';
 
     /**
      * The attributes that are mass assignable.
@@ -23,11 +23,9 @@ class UsersTypes extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'create',
+        'read',
+        'update',
+        'delete'
     ];
-
-    public function userstypesrel(): MorphMany
-    {
-        return $this->MorphMany(UsersTypesMeusRel::class, 'userstypesable');
-    }
 }

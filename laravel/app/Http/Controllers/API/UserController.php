@@ -18,38 +18,51 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6',
+                'avatar' => 'required',
+                'idUsersTypes' => 'required',
+                'phone' => 'required',
+                'cpf' => 'required',
+            ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'cpf' => $request->cpf,
+                'avatar' => $request->avatar,
+                'id_users_types' => $request->idUsersTypes
+            ]);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => $user
-        ], 201);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Usuário criado com sucesso!'
+            ], 201);
+        } catch (\Exception $e) {
+            $error = $e->getMessage();
+            return response()->json(compact('error'), 404);
+        }
     }
 
     public function getUsers()
     {
         try {
-            $user = User::paginate(10);
+            $user = User::select('users.*', 'ut.name as userTypeName', 'ut.id as idUserTypeName')
+                ->leftJoin('users_types as ut', 'ut.id', '=', 'users.id_users_types')
+                ->paginate(10);
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Users all',
-                'user' => $user,
-                'password' => bcrypt('secret')
+                'user' => $user
             ]);
         } catch (\Exception $e) {
-            $error = 'Invalid token';
+            $error = $e->getMessage();
             return response()->json(compact('error'), 404);
         }
     }
@@ -57,7 +70,10 @@ class UserController extends Controller
     public function getUsersById(Request $request)
     {
         try {
-            $user = User::find($request->idUser);
+            $user = $user = User::select('users.*', 'ut.name as userTypeName', 'ut.id as idUserTypeName')
+                ->leftJoin('users_types as ut', 'ut.id', '=', 'users.id_users_types')
+                ->where('users.id', $request->idUser)
+                ->first();
 
             if (!empty($user)) {
                 return response()->json([
@@ -86,6 +102,7 @@ class UserController extends Controller
                 'phone' => 'required|string|max:20',
                 'cpf' => 'required|string|max:20',
                 'avatar' => 'required',
+                'idUsersTypes' => 'required',
             ]);
 
             $user = User::find($request->id);
@@ -95,7 +112,8 @@ class UserController extends Controller
                     "name" => $request->name,
                     "phone" => $request->phone,
                     "cpf" => $request->cpf,
-                    "avatar" => $request->avatar
+                    "avatar" => $request->avatar,
+                    "id_users_types" => $request->idUsersTypes
                 ];
 
                 if ($request->email) {
@@ -127,8 +145,8 @@ class UserController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|string|max:255',
-                'cpf' => 'required|string|max:20',
+                "name" => 'required|string|max:255',
+                "cpf" => 'required|string|max:20',
                 "phone" => 'required|string|max:20'
             ]);
 
@@ -249,7 +267,6 @@ class UserController extends Controller
                     'message' => 'A senha é igual da atual, por favor digitar outra senha.'
                 ], 404);
             }
-
 
             // transforma a senha em hash
             $newPassword = Hash::make($request->newPassword);

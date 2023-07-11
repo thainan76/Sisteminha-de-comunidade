@@ -13,7 +13,7 @@
         >
           <!--begin::Title-->
           <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">
-            Usuários
+           Permissões
             <!--begin::Separator-->
             <span
               class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"
@@ -21,7 +21,7 @@
             <!--end::Separator-->
             <!--begin::Description-->
             <span class="text-muted fs-7 fw-bold mt-2"
-              >Listagem de usuários</span
+              >Listagem de tipos de usuários</span
             >
             <!--end::Description-->
           </h1>
@@ -31,8 +31,8 @@
         <!--begin::Actions-->
         <div class="d-flex align-items-center gap-2 gap-lg-3">
           <!--begin::Primary button-->
-          <a @click="createUser()" class="btn btn-sm btn-primary"
-            >Novo usuário</a
+          <a @click="createTypes()" class="btn btn-sm btn-primary"
+            >Novo tipo de usuário</a
           >
           <!--end::Primary button-->
         </div>
@@ -60,23 +60,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="user in users.data" :key="user.id">
-                    <td>{{ user.name }}</td>
+                  <tr v-for="type in types.data" :key="type.id">
+                    <td>{{ type.name }}</td>
                     <td
                       class="d-flex flex-row align-item-center justify-content-center p-4 h-100 w-100"
                     >
                       <div
                         class="text-decoration-none cursor-pointer m-2 d-flex flex-row align-item-center justify-content-center"
-                        @click="goToEdit(user.id)"
+                        @click="goToEdit(type.id)"
                       >
                         <span class="material-symbols-outlined font-size-22"
                           >edit_square</span
                         >
                       </div>
                       <button
-                        v-if="myId != user.id"
                         class="btn-delete text-decoration-none cursor-pointer m-2 d-flex flex-row align-item-center justify-content-center"
-                        @click="deleteUser(user.id)"
+                        @click="deletePermission(type.id)"
                       >
                         <span class="material-symbols-outlined font-size-22"
                           >delete</span
@@ -90,7 +89,7 @@
                 <li
                   class="page-item m-1"
                   :class="{ active: link.active, disabled: !link.url }"
-                  v-for="(link, key) in users.links"
+                  v-for="(link, key) in types.links"
                   :key="link.id"
                 >
                   <a
@@ -105,7 +104,7 @@
                     href="#"
                     @click="paginate(link.url)"
                     class="page-link"
-                    v-else-if="key == users.links.length - 1"
+                    v-else-if="key == types.links.length - 1"
                   >
                     <i class="next"></i>
                   </a>
@@ -133,7 +132,6 @@ export default {
   data() {
     return {
       types: [],
-      myId: this.$store.state.userAuth.user.id,
     };
   },
   mounted() {
@@ -170,19 +168,19 @@ export default {
       this.axios.get(url, header).then((response) => {
         let data = response.data;
 
-        this.users = data.user;
+        this.types = data.types;
       });
     },
 
-    createUser() {
-      this.$router.push({ name: "UsersCreate" });
+    createTypes() {
+      this.$router.push({ name: "UsersPermissionsCreate" });
     },
 
     goToEdit(id) {
-      this.$router.push({ name: "UsersEdit", params: { id: id } });
+      this.$router.push({ name: "UsersPermissionsEdit", params: { id: id } });
     },
 
-    deleteUser(id) {
+    deletePermission(id) {
       let tokenAuth = this.$store.state.userAuth.authorization.token;
 
       let header = {
@@ -192,7 +190,7 @@ export default {
       };
 
       this.axios
-        .delete(`${this.$root.$data.host}/api/user/delete/${id}`, header)
+        .delete(`${this.$root.$data.host}/api/permissions/delete/${id}`, header)
         .then((response) => {
           let data = response.data;
 

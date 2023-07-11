@@ -246,12 +246,45 @@
                 <!--end::Input group-->
               </div>
               <!--begin::Input group-->
+              <!--end::Input group-->
+              <div class="d-flex flex-row flex-wrap flex-md-nowrap w-100 gap-2">
+                <!--begin::Input group-->
+                <div class="col-12 col-md-6">
+                  <div class="form-floating mb-7">
+                    <select
+                      class="form-select form-select-solid"
+                      id="typeUsers"
+                      aria-label="Selecione um tipo de usuário"
+                      v-model="dataUser.id_users_types"
+                    >
+                      <option
+                        v-for="menu in menus"
+                        :key="menu.id"
+                        :value="menu.id"
+                        :selected="menu.id == dataUser.id_users_types"
+                      >
+                        {{ menu.name }}
+                      </option>
+                    </select>
+                    <label for="typeUsers">Tipos de usuários</label>
+                  </div>
+                  <div
+                    v-if="errors.usersTypes.message"
+                    class="fv-plugins-message-container invalid-feedback"
+                  >
+                    <div>{{ errors.usersTypes.message }}</div>
+                  </div>
+                </div>
+                <!--end::Input group-->
+              </div>
+              <!--begin::Input group-->
               <div v-if="!dataUser.id" class="form-floating mb-7 w-100">
                 <input
                   type="password"
                   class="form-control form-control-solid"
                   id="password"
                   placeholder="Digite uma senha"
+                  v-model="dataUser.password"
                 />
                 <label for="password">Senha</label>
               </div>
@@ -276,7 +309,9 @@ export default {
         email: null,
         password: null,
         avatar: null,
+        id_users_types: null,
       },
+      menus: [],
       currentEmail: null,
       loading: false,
       styleAvatarBackground:
@@ -297,6 +332,9 @@ export default {
         name: {
           message: null,
         },
+        usersTypes: {
+          message: null,
+        },
         phone: {
           message: null,
         },
@@ -309,13 +347,57 @@ export default {
       },
     };
   },
-  mounted() {
+  async mounted() {
     // if have a id in router
     if (this.$route.params.id) {
-      this.getUserById();
+      await this.getUserById();
     }
+
+    await this.getMenus();
   },
   methods: {
+    getMenus() {
+      let tokenAuth = this.$store.state.userAuth.authorization.token;
+      let header = {
+        headers: {
+          Authorization: "Bearer " + tokenAuth,
+        },
+      };
+
+      this.axios
+        .get(
+          `${this.$root.$data.host}/api/permissions/getTypesSimplePaginate`,
+          header
+        )
+        .then((response) => {
+          let types = response.data.types;
+
+          this.menus = types.data;
+          console.log("menus", this.menus);
+        })
+        .catch((error) => {
+          if (error.response != undefined) {
+            let data = error.response.data;
+            console.log(data);
+            this.$notify({
+              type: "error",
+              title: "Erro!",
+              text: data.message,
+              duration: 5000,
+            });
+          } else if (error) {
+            this.$notify({
+              type: "error",
+              title: "Erro",
+              text: error,
+              duration: 5000,
+            });
+          }
+
+          this.loading = false;
+        });
+    },
+
     onFileChange(e) {
       let files = e.target.files || e.dataTransfer.files;
 
@@ -351,6 +433,8 @@ export default {
     },
 
     create() {
+      this.resetErrors();
+
       let result = this.verifyRequired();
 
       if (result) {
@@ -367,9 +451,17 @@ export default {
           .post(
             `${this.$root.$data.host}/api/user/register`,
             {
-              email: this.dataUser.email,
-              password: this.dataUser.password,
               name: this.dataUser.name,
+              email: this.dataUser.email,
+              phone: this.dataUser.phone
+                .replace("(", "")
+                .replace(")", "")
+                .replace(" ", "")
+                .replace("-", ""),
+              cpf: this.dataUser.cpf.replaceAll(".", "").replace("-", ""),
+              avatar: this.dataUser.avatar,
+              idUsersTypes: this.dataUser.id_users_types,
+              password: this.dataUser.password,
             },
             header
           )
@@ -391,12 +483,21 @@ export default {
             if (error.response != undefined) {
               let data = error.response.data;
               console.log(data);
-              this.$notify({
-                type: "error",
-                title: "Erro!",
-                text: data.message,
-                duration: 5000,
-              });
+              if (data.message != undefined) {
+                this.$notify({
+                  type: "error",
+                  title: "Erro!",
+                  text: data.message.error,
+                  duration: 5000,
+                });
+              } else {
+                this.$notify({
+                  type: "error",
+                  title: "Erro!",
+                  text: data.error,
+                  duration: 5000,
+                });
+              }
             } else if (error) {
               this.$notify({
                 type: "error",
@@ -412,9 +513,15 @@ export default {
     },
 
     verifyRequired() {
+      console.log(this.dataUser, "datausers");
       if (this.dataUser.avatar == null || this.dataUser.avatar == "") {
         this.errors.avatar.message =
           "Avatar é obrigatório, por favor, fazer upload";
+        return false;
+      }
+
+      if (this.dataUser.email == null || this.dataUser.email == "") {
+        this.errors.email.message = "Email é obrigatório!";
         return false;
       }
 
@@ -430,6 +537,14 @@ export default {
 
       if (this.dataUser.cpf == null || this.dataUser.cpf == "") {
         this.errors.cpf.message = "CPF é obrigatório!";
+        return false;
+      }
+
+      if (
+        this.dataUser.id_users_types == null ||
+        this.dataUser.id_users_types == ""
+      ) {
+        this.errors.usersTypes.message = "Tipo de usuário é obrigatório!";
         return false;
       }
 
@@ -514,7 +629,8 @@ export default {
           name: this.dataUser.name,
           phone: this.dataUser.phone,
           cpf: this.dataUser.cpf,
-          avatar: this.dataUser.avatar
+          avatar: this.dataUser.avatar,
+          idUsersTypes: this.dataUser.id_users_types,
         };
 
         let resultEmailEqual = this.verifyEmailChange();
@@ -541,18 +657,16 @@ export default {
           .catch((error) => {
             if (error.response != undefined) {
               let data = error.response.data;
-              console.log(data);
-              if (data.message) {
+              if (data.message != undefined) {
                 this.$notify({
                   type: "error",
                   title: "Erro!",
-                  text: data.message,
+                  text: data.message.error,
                   duration: 5000,
                 });
 
                 return;
               }
-
               this.$notify({
                 type: "error",
                 title: "Erro!",
@@ -576,6 +690,9 @@ export default {
     resetErrors() {
       this.errors = {
         email: {
+          message: null,
+        },
+        usersTypes: {
           message: null,
         },
         password: {

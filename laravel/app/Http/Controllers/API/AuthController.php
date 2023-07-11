@@ -16,28 +16,33 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'email' => 'required|string|email',
+                'password' => 'required|string',
+            ]);
 
-        $credentials = $request->only('email', 'password');
-        $token = Auth::attempt($credentials);
+            $credentials = $request->only('email', 'password');
+            $token = Auth::attempt($credentials);
 
-        if (!$token) {
+            if (!$token) {
+                return response()->json([
+                    'message' => 'Não autorizado, senha ou email estão incorretos',
+                ], 403);
+            }
+
+            $user = Auth::user();
             return response()->json([
-                'message' => 'Não autorizado, senha ou email estão incorretos',
-            ], 403);
+                'user' => $user,
+                'authorization' => [
+                    'token' => $token,
+                    'type' => 'bearer',
+                ]
+            ]);
+        } catch (\Exception $e) {
+            $error = $e->getMessage();
+            return response()->json(compact('error'), 404);
         }
-
-        $user = Auth::user();
-        return response()->json([
-            'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
     }
 
     /**
