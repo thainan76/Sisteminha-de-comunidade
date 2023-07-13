@@ -625,7 +625,7 @@ export default {
         };
 
         let dataPost = {
-          id: this.dataUser.id,
+          idUser: this.dataUser.id,
           name: this.dataUser.name,
           phone: this.dataUser.phone,
           cpf: this.dataUser.cpf,

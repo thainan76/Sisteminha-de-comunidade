@@ -70,6 +70,11 @@ class UserController extends Controller
     public function getUsersById(Request $request)
     {
         try {
+            $request->validate([
+                "idUser" => "required",
+            ]);
+
+
             $user = $user = User::select('users.*', 'ut.name as userTypeName', 'ut.id as idUserTypeName')
                 ->leftJoin('users_types as ut', 'ut.id', '=', 'users.id_users_types')
                 ->where('users.id', $request->idUser)
@@ -97,6 +102,7 @@ class UserController extends Controller
     {
         try {
             $request->validate([
+                "idUser" => "required",
                 'name' => 'required|string|max:255',
                 'email' => 'string|email|max:255|unique:users',
                 'phone' => 'required|string|max:20',
@@ -105,7 +111,7 @@ class UserController extends Controller
                 'idUsersTypes' => 'required',
             ]);
 
-            $user = User::find($request->id);
+            $user = User::find($request->idUser);
 
             if (!empty($user)) {
                 $dataUpdate = [
@@ -120,7 +126,7 @@ class UserController extends Controller
                     $dataUpdate["email"] = $request->email;
                 }
 
-                $update = User::where('id', $request->id)
+                $update = User::where('id', $request->idUser)
                     ->update($dataUpdate);
 
                 if ($update) {
@@ -145,15 +151,16 @@ class UserController extends Controller
     {
         try {
             $request->validate([
+                "idUser" => "required",
                 "name" => 'required|string|max:255',
                 "cpf" => 'required|string|max:20',
                 "phone" => 'required|string|max:20'
             ]);
 
-            $user = User::find($request->id);
+            $user = User::find($request->idUser);
 
             if (!empty($user)) {
-                $update = User::where('id', $request->id)
+                $update = User::where('id', $request->idUser)
                     ->update([
                         "name" => $request->name,
                         "phone" => $request->phone,
@@ -184,12 +191,12 @@ class UserController extends Controller
         try {
             // valida os dados da requisição
             $request->validate([
-                'id' => 'required',
+                'idUser' => 'required',
                 'email' => 'required|string|email|max:255',
                 'newEmail' => 'required|string|email|max:255'
             ]);
 
-            $user = User::find($request->id);
+            $user = User::find($request->idUser);
 
             // verifica se o usuário não existe
             if (empty($user)) {
@@ -231,12 +238,12 @@ class UserController extends Controller
         try {
             // valida os dados da requisição
             $request->validate([
-                'id' => 'required',
+                'idUser' => 'required',
                 'password' => 'required',
                 'newPassword' => 'required|min:8'
             ]);
 
-            $user = User::find($request->id);
+            $user = User::find($request->idUser);
 
             // verifica se o usuário não existe
             if (empty($user)) {

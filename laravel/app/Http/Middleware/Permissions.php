@@ -18,7 +18,6 @@ class Permissions
      */
     public function handle(Request $request, Closure $next)
     {
-
         $routers = [
             "Usuários" => '/api/user/',
             "Permissões" => '/api/permissions'
@@ -26,9 +25,26 @@ class Permissions
 
         //$routeCollection = Route::getRoutes();
 
+        // pega o id do usuario que está fazendo a requisição
+        $idUsers = null;
+        if ($request->has('idUser')) {
+            $idUsers = $request->get('idUser');
+        }
+
+        // cria uma nova requisição
         $requestNew = new Request();
         $requestNew->headers->set('content-type', 'application/json');
         $requestNew->initialize(['id_users_types' => auth()->user()->id_users_types]);
+
+        // pega a rota/endpoit que está sendo feita a requisição
+        $uri = $request->getRequestUri();
+
+        // verifica se as rotas são para atualização ou visualização de informações pessoais
+        if ($uri == '/api/user/getUsersById' || $uri == '/user/updateEmail' || $uri == '/user/updatePassword') {
+            if (auth()->user()->id === $idUsers) {
+                return $next($request);
+            }
+        }
 
         // get permissions of user
         $permissions = new PermissionController();
@@ -39,17 +55,12 @@ class Permissions
             if ($data->type) {
                 $menus = $data->type->menus;
                 foreach ($menus as $menu) {
-                    //dd($menu);
-                    //dd($routers['thainan']);
-                    //dd($request->getRequestUri()); "/api/user/getUsers"
-                    //dd($request->getMethod());
-                    $uri = $request->getRequestUri();
 
                     if (!empty($routers[$menu->menuName])) {
                         if (!$menu->create && substr_count($uri, $routers[$menu->menuName]) && $request->getMethod() == "POST") {
                             return response()->json([
                                 'status' => 'error',
-                                'message' => 'O usuário não pode criar',
+                                'message' => 'O usuário não pode criar / visualizar',
                             ], 403);
                         }
 
@@ -77,7 +88,6 @@ class Permissions
                 }
             }
         }
-
 
         return $next($request);
     }

@@ -245,7 +245,7 @@ export default {
 
       this.axios
         .post(
-          `${this.$root.$data.host}/api/permissions/getUsersTypesById`,
+          `${this.$root.$data.host}/api/user/getUsersTypesById`,
           {
             id_users_types: users.id_users_types,
           },

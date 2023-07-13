@@ -807,7 +807,7 @@ export default {
         .put(
           `${this.$root.$data.host}/api/user/updateEmail`,
           {
-            id: this.user.id,
+            idUser: this.user.id,
             email: this.user.email,
             newEmail: this.user.newEmail,
             confirmPasswordEmail: this.user.confirmPasswordEmail,
@@ -878,7 +878,7 @@ export default {
         .put(
           `${this.$root.$data.host}/api/user/updatePassword`,
           {
-            id: this.user.id,
+            idUser: this.user.id,
             newPassword: this.user.newPassword,
             password: this.user.currentPassword,
           },

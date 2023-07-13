@@ -9,6 +9,7 @@ import UsersForm from "./components/admin/users/UsersFormComponent.vue";
 import UsersPermissions from "./components/admin/users/usersPermissions/UsersPermissionsComponent.vue";
 import UsersPermissionsForm from "./components/admin/users/usersPermissions/UsersPermissionsFormComponent.vue";
 import MyProfile from "@/components/admin/myProfile/MyProfileComponent.vue";
+import Page403 from "@/components/admin/errors/Error-403.vue";
 
 const routers = [
     {
@@ -100,6 +101,14 @@ const routers = [
                 name: 'UsersPermissionsEdit',
                 path: 'permissions/edit/:id',
                 component: UsersPermissionsForm,
+                meta: {
+                    requiresAuth: true,
+                },
+            },
+            {
+                name: 'Error-403',
+                path: 'error/403',
+                component: Page403,
                 meta: {
                     requiresAuth: true,
                 },

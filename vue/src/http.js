@@ -1,6 +1,7 @@
 import axios from 'axios';
 import storeUser from '@/components/store/storeUser.js';
 let api = 'http://localhost:8000/api/';
+import router from "./router.js";
 
 const http = axios.create({
   baseURL: api
@@ -28,7 +29,8 @@ http.interceptors.response.use((response) => {
     }
 
     if (error.response.status === 403) {
-      console.log('forbbiden');
+      console.log('Error403');
+      router.push({ name: 'Error-403'});
     }
   }
 
