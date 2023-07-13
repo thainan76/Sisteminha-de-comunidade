@@ -30,13 +30,13 @@ class UserController extends Controller
             ]);
 
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
                 'phone' => $request->phone,
                 'cpf' => $request->cpf,
                 'avatar' => $request->avatar,
-                'id_users_types' => $request->idUsersTypes
+                'id_users_types' => $request->idUsersTypes,
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
             ]);
 
             return response()->json([

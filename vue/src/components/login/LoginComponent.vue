@@ -262,12 +262,8 @@ export default {
       'setAuth',
       'getAuth'
     ]),
-    login() {
-      console.log({
-        email: this.email,
-        password: this.password,
-      });
 
+    login() {
       let result = this.verifyRequired();
 
       if (result) {
@@ -296,7 +292,6 @@ export default {
 
             if (error.response != undefined) {
               let data = error.response.data;
-              console.log(data);
               this.$notify({
                 type: "error",
                 title: "Erro",

@@ -26,6 +26,10 @@ http.interceptors.response.use((response) => {
       storeUser.commit('setAuth', null);
       window.location = '/login';
     }
+
+    if (error.response.status === 403) {
+      console.log('forbbiden');
+    }
   }
 
   return Promise.reject(error)

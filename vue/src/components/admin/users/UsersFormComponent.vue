@@ -487,7 +487,7 @@ export default {
                 this.$notify({
                   type: "error",
                   title: "Erro!",
-                  text: data.message.error,
+                  text: data.message,
                   duration: 5000,
                 });
               } else {
@@ -639,7 +639,7 @@ export default {
         }
 
         this.axios
-          .post(`${this.$root.$data.host}/api/user/update`, dataPost, header)
+          .put(`${this.$root.$data.host}/api/user/update`, dataPost, header)
           .then((response) => {
             let data = response.data;
 
@@ -661,7 +661,7 @@ export default {
                 this.$notify({
                   type: "error",
                   title: "Erro!",
-                  text: data.message.error,
+                  text: data.message,
                   duration: 5000,
                 });
 

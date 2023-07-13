@@ -152,7 +152,11 @@
     </div>
     <!--end::Page-->
     <!--begin::Page loading(append to body)-->
-    <div v-if="loadingGlobal" class="page-loader d-flex flex-column align-items-center justify-content-center" :class="{ 'd-block': loadingGlobal, 'd-none': !loadingGlobal }">
+    <div
+      v-if="loadingGlobal"
+      class="page-loader d-flex flex-column align-items-center justify-content-center"
+      :class="{ 'd-block': loadingGlobal, 'd-none': !loadingGlobal }"
+    >
       <span class="spinner-border text-primary" role="status"></span>
       <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
     </div>
@@ -171,6 +175,7 @@ export default {
   data() {
     return {
       loadingGlobal: true,
+      users: null,
     };
   },
   methods: {
@@ -195,36 +200,94 @@ export default {
           let data = response.data;
           // add na variavel global
           this.$root.user = data.user;
-          this.emitter.emit("user", data.user);
+
           // caso tenha avatar cadastrado
           if (data.user.avatar) {
             this.styleAvatarBackground = `background: url(${data.user.avatar}); background-size: cover!important;`;
           }
 
+          // get permissions of users
+          this.getPermissions(data.users);
+
+          this.emitter.emit("user", data.user);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          if (error.response != undefined) {
+            let data = error.response.data;
+            this.$notify({
+              type: "error",
+              title: "Erro!",
+              text: data.message,
+              duration: 5000,
+            });
+          } else if (error) {
+            this.$notify({
+              type: "error",
+              title: "Erro",
+              text: error,
+              duration: 5000,
+            });
+          }
+        });
+    },
+
+    getPermissions() {
+      let users = this.$store.state.userAuth.user;
+      let tokenAuth = this.$store.state.userAuth.authorization.token;
+
+      let header = {
+        headers: {
+          Authorization: "Bearer " + tokenAuth,
+        },
+      };
+
+      this.axios
+        .post(
+          `${this.$root.$data.host}/api/permissions/getUsersTypesById`,
+          {
+            id_users_types: users.id_users_types,
+          },
+          header
+        )
+        .then((response) => {
+          let data = response.data;
+          
+          // add na variavel config global
+          this.$root.configPermissions = data.type;
+
+          this.emitter.emit("config", data.type);
+
           this.loadingGlobal = false;
         })
         .catch((error) => {
-          this.$notify({
-            type: "error",
-            title: "Erro!",
-            text: error.response.data.message,
-          });
+          if (error.response != undefined) {
+            let data = error.response.data;
+            console.log(data);
+            this.$notify({
+              type: "error",
+              title: "Erro!",
+              text: data.message,
+              duration: 5000,
+            });
+          } else if (error) {
+            this.$notify({
+              type: "error",
+              title: "Erro",
+              text: error,
+              duration: 5000,
+            });
+          }
         });
     },
   },
-  created() {
-    this.getInformationUser();
+  async created() {
+    await this.getInformationUser();
   },
   beforeCreate() {
-    // mudança de tema claro e dark
-    /*const teste = true;
-    if (teste) {
-      import("@/assets/css/style.dark.bundle.css");
-    } else {
-      import("@/assets/css/style.bundle.css");
-    }*/
   },
-  mounted() {
+  async mounted() {
     this.emitter.on("user", (data) => {
       if (data.avatar) {
         this.$root.user.avatar = data.avatar;

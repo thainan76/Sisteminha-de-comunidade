@@ -333,7 +333,6 @@ export default {
           .catch((error) => {
             if (error.response != undefined) {
               let data = error.response.data;
-              console.log(data);
               this.$notify({
                 type: "error",
                 title: "Erro!",

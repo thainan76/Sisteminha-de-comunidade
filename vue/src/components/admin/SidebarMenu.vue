@@ -143,9 +143,66 @@ export default {
     goTo(name) {
       this.$router.push({ name: name });
     },
+
+    setMenu() {
+      let menuPermissions = [];
+      let menuChildAux = [];
+      //console.log(this.$root.configPermissions.menus, "menu db");
+      //console.log(menuAdmin, "menu fixed");
+
+      if (this.$root.configPermissions != undefined) {
+        menuAdmin.forEach((menuFather) => {
+          if (menuFather.private) {
+            menuChildAux = [];
+
+            menuFather.children.forEach((menuChild) => {
+              // menu está privado
+              if (menuChild.private) {
+                this.$root.configPermissions.menus.forEach((menuDB) => {
+                  /*
+                   console.log(menuChild.nameMenu, "menuChild.nameMenu");
+                   console.log(menuDB.read, "menuChild.read");
+                   console.log(menuDB.menuName, "menuChild.menuName");
+                  */
+                  if (
+                    menuChild.nameMenu.includes(menuDB.menuName) &&
+                    menuDB.read
+                  ) {
+                    // add menu child
+                    menuChildAux.push(menuChild);
+                  }
+                });
+              } else {
+                // add menu child
+                menuChildAux.push(menuChild);
+              }
+            });
+
+            // caso tenha encontrado alguns menu children
+            if (menuChildAux.length) {
+              // add menu child in father
+              menuFather.children = menuChildAux;
+
+              // add menu father
+              menuPermissions.push(menuFather);
+            }
+          } else {
+            // add menu father
+            menuPermissions.push(menuFather);
+          }
+        });
+      }
+
+      //console.log(menuPermissions, "menu permissions");
+
+      return menuPermissions;
+    },
   },
-  mounted() {
-    this.menus = menuAdmin;
+  async mounted() {
+    this.emitter.on("config", (data) => {
+      this.$root.configPermissions = data;
+      this.menus = this.setMenu();
+    });
   },
 };
 </script>

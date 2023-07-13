@@ -27,25 +27,23 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('getMyInformations', 'getMyInformations');
 });
 
-
 Route::controller(UserController::class)->group(function () {
-    Route::post('/user/register', 'register');
-    Route::get('/user/getUsers', 'getUsers');
+    Route::post('/user/register', 'register')->middleware('permissions');
+    Route::get('/user/getUsers', 'getUsers')->middleware('permissions');
     Route::post('/user/getUsersById', 'getUsersById');
-    Route::post('/user/update', 'update');
+    Route::put('/user/update', 'update')->middleware('permissions');
     Route::put('/user/updateUserInformation', 'updateUserInformation');
-    Route::delete('/user/delete/{id}', 'delete');
+    Route::delete('/user/delete/{id}', 'delete')->middleware('permissions');
     Route::put('/user/updateEmail', 'updateEmail');
     Route::put('/user/updatePassword', 'updatePassword');
 });
 
-
 Route::controller(PermissionController::class)->group(function () {
     Route::get('/permissions/getMenus', 'getMenus');
-    Route::get('/permissions/getTypes', 'getTypes');
+    Route::get('/permissions/getTypes', 'getTypes')->middleware('permissions');
     Route::get('/permissions/getTypesSimplePaginate', 'getTypesSimplePaginate');
     Route::post('/permissions/getUsersTypesById', 'getUsersTypesById');
-    Route::put('/permissions/update', 'update');
-    Route::delete('/permissions/delete/{id}', 'delete');
-    Route::post('/permissions/create', 'create');
+    Route::put('/permissions/update', 'update')->middleware('permissions');
+    Route::delete('/permissions/delete/{id}', 'delete')->middleware('permissions');
+    Route::post('/permissions/create', 'create')->middleware('permissions');
 });
