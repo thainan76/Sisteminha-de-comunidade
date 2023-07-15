@@ -63,7 +63,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-        - "33061:3306"
+        - "3306:3306"
     environment:
         MYSQL_DATABASE: movimentesim
         MYSQL_ROOT_PASSWORD: root
