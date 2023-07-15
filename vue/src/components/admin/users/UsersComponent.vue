@@ -29,7 +29,10 @@
         </div>
         <!--end::Page title-->
         <!--begin::Actions-->
-        <div class="d-flex align-items-center gap-2 gap-lg-3">
+        <div
+          v-if="permissions.create"
+          class="d-flex align-items-center gap-2 gap-lg-3"
+        >
           <!--begin::Primary button-->
           <a @click="createUser()" class="btn btn-sm btn-primary"
             >Novo usuário</a
@@ -92,6 +95,7 @@
                       class="d-flex flex-row align-item-center justify-content-center p-4 h-100 w-100"
                     >
                       <div
+                        v-if="permissions.update"
                         class="text-decoration-none cursor-pointer m-2 d-flex flex-row align-item-center justify-content-center"
                         @click="goToEdit(user.id)"
                       >
@@ -100,7 +104,7 @@
                         >
                       </div>
                       <button
-                        v-if="myId != user.id"
+                        v-if="myId != user.id && permissions.delete"
                         class="btn-delete text-decoration-none cursor-pointer m-2 d-flex flex-row align-item-center justify-content-center"
                         @click="deleteUser(user.id)"
                       >
@@ -160,12 +164,29 @@ export default {
     return {
       users: [],
       myId: this.$store.state.userAuth.user.id,
+      permissions: {},
     };
   },
+  beforeCreate() {
+    this.emitter.on("config", (data) => {
+      this.permissions = data.menus.find((menu) => {
+        return menu.menuName.toLowerCase() === "usuários";
+      });
+    });
+  },
   mounted() {
+    if (this.$root.configPermissions != undefined) {
+      this.setPermissions(this.$root.configPermissions);
+    }
+
     this.getUsers();
   },
   methods: {
+    setPermissions() {
+      this.permissions = this.$root.configPermissions.menus.find((menu) => {
+        return menu.menuName.toLowerCase() === "usuários";
+      });
+    },
     getUsers() {
       let tokenAuth = this.$store.state.userAuth.authorization.token;
 

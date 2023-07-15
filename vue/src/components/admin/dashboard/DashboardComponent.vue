@@ -31,13 +31,12 @@
           <!--begin::Filter menu-->
           <div class="m-0">
             <!--begin::Menu toggle-->
-            <a
+            <!--<a
               href="#"
               class="btn btn-sm btn-flex btn-light btn-active-primary fw-bolder"
               data-kt-menu-trigger="click"
               data-kt-menu-placement="bottom-end"
             >
-              <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
               <span class="svg-icon svg-icon-5 svg-icon-gray-500 me-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -52,8 +51,8 @@
                   />
                 </svg>
               </span>
-              <!--end::Svg Icon-->Filter</a
-            >
+              Filter</a
+            >-->
             <!--end::Menu toggle-->
             <!--begin::Menu 1-->
             <div
@@ -179,13 +178,13 @@
           <!--begin::Secondary button-->
           <!--end::Secondary button-->
           <!--begin::Primary button-->
-          <a
+          <!--<a
             href="../../demo1/dist/.html"
             class="btn btn-sm btn-primary"
             data-bs-toggle="modal"
             data-bs-target="#kt_modal_create_app"
             >Create</a
-          >
+          >-->
           <!--end::Primary button-->
         </div>
         <!--end::Actions-->

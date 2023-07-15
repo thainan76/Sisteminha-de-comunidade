@@ -347,7 +347,7 @@ export default {
       },
     };
   },
-  async mounted() {
+  async mounted() { 
     // if have a id in router
     if (this.$route.params.id) {
       await this.getUserById();

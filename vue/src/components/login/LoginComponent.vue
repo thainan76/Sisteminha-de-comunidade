@@ -56,12 +56,12 @@
                 <h1 class="text-dark mb-3">Logue com sua conta</h1>
                 <!--end::Title-->
                 <!--begin::Link-->
-                <div class="text-gray-400 fw-bold fs-4">
+                <!--<div class="text-gray-400 fw-bold fs-4">
                   É novo aqui?
                   <a href="#" class="link-movimentesim-verde fw-bolder"
                     >Crie sua conta</a
                   >
-                </div>
+                </div>-->
                 <!--end::Link-->
               </div>
               <!--begin::Heading-->
@@ -93,9 +93,9 @@
                   >
                   <!--end::Label-->
                   <!--begin::Link-->
-                  <a href="#" class="link-movimentesim-verde fs-6 fw-bolder"
+                  <!--<a href="#" class="link-movimentesim-verde fs-6 fw-bolder"
                     >Esqueceu a senha ?</a
-                  >
+                  >-->
                   <!--end::Link-->
                 </div>
                 <!--end::Wrapper-->

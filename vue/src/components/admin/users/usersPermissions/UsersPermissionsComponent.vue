@@ -29,7 +29,7 @@
         </div>
         <!--end::Page title-->
         <!--begin::Actions-->
-        <div class="d-flex align-items-center gap-2 gap-lg-3">
+        <div v-if="permissions.create" class="d-flex align-items-center gap-2 gap-lg-3">
           <!--begin::Primary button-->
           <a @click="createTypes()" class="btn btn-sm btn-primary"
             >Novo tipo de usuário</a
@@ -66,6 +66,7 @@
                       class="d-flex flex-row align-item-center justify-content-center p-4 h-100 w-100"
                     >
                       <div
+                        v-if="permissions.update"
                         class="text-decoration-none cursor-pointer m-2 d-flex flex-row align-item-center justify-content-center"
                         @click="goToEdit(type.id)"
                       >
@@ -74,6 +75,7 @@
                         >
                       </div>
                       <button
+                        v-if="permissions.delete"
                         class="btn-delete text-decoration-none cursor-pointer m-2 d-flex flex-row align-item-center justify-content-center"
                         @click="deletePermission(type.id)"
                       >
@@ -132,12 +134,30 @@ export default {
   data() {
     return {
       types: [],
+      permissions: {}
     };
   },
+  beforeCreate() {
+    this.emitter.on("config", (data) => {
+      this.permissions = data.menus.find((menu) => {
+        return menu.menuName.toLowerCase() === "permissões";
+      });
+    });
+  },
   mounted() {
+    if (this.$root.configPermissions != undefined) {
+      this.setPermissions(this.$root.configPermissions);
+    }
+
     this.getTypes();
   },
   methods: {
+    setPermissions() {
+      this.permissions = this.$root.configPermissions.menus.find((menu) => {
+        return menu.menuName.toLowerCase() === "permissões";
+      });
+    },
+
     getTypes() {
       let tokenAuth = this.$store.state.userAuth.authorization.token;
 
