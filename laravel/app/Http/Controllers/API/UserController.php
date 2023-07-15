@@ -75,7 +75,7 @@ class UserController extends Controller
             ]);
 
 
-            $user = $user = User::select('users.*', 'ut.name as userTypeName', 'ut.id as idUserTypeName')
+            $user = User::select('users.*', 'ut.name as userTypeName', 'ut.id as idUserTypeName')
                 ->leftJoin('users_types as ut', 'ut.id', '=', 'users.id_users_types')
                 ->where('users.id', $request->idUser)
                 ->first();
