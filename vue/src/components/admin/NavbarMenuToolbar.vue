@@ -25,6 +25,7 @@
         <img
           :src="user.avatar ? user.avatar : '@/assets/media/avatars/300-1.jpg'"
           alt="user"
+          style="object-fit: cover;"
         />
       </div>
       <!--begin::User account menu-->

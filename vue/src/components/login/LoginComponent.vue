@@ -41,7 +41,7 @@
         class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-2 order-lg-2 bg-login"
       >
         <!--begin::Content-->
-        <div class="d-flex flex-center flex-column flex-lg-row-fluid">
+        <div class="d-flex flex-center flex-column flex-lg-row-fluid w-100">
           <!--begin::Wrapper-->
           <div class="w-lg-500px p-10">
             <!--begin::Form-->
