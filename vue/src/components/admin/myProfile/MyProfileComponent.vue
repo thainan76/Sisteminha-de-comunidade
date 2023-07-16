@@ -999,6 +999,7 @@ export default {
           .put(
             `${this.$root.$data.host}/api/user/updateUserInformation`,
             {
+              idUser: this.user.id,
               id: this.user.id,
               name: this.user.name,
               cpf: this.user.cpf.replaceAll(".", "").replace("-", ""),

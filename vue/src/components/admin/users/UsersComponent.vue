@@ -164,7 +164,12 @@ export default {
     return {
       users: [],
       myId: this.$store.state.userAuth.user.id,
-      permissions: {},
+      permissions: {
+        create: 0,
+        delete: 0,
+        update: 0,
+        read: 0
+      },
     };
   },
   beforeCreate() {
@@ -175,6 +180,7 @@ export default {
     });
   },
   mounted() {
+    console.log(this.$root.configPermissions);
     if (this.$root.configPermissions != undefined) {
       this.setPermissions(this.$root.configPermissions);
     }
