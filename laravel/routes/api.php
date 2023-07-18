@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\PermissionController;
+use App\Http\Controllers\API\CoursesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,4 +50,12 @@ Route::controller(PermissionController::class)->group(function () {
 
     // users
     Route::post('/user/getUsersTypesById', 'getUsersTypesById');
+});
+
+Route::controller(CoursesController::class)->group(function () {
+    Route::post('/courses/create', 'create');
+    Route::get('/courses/getMyCourses', 'getMyCourses');
+    Route::get('/courses/getCourseById/{id}', 'getCourseById');
+    Route::put('/courses/updateCourse', 'updateCourse');
+    Route::delete('/courses/delete/{id}', 'delete');
 });

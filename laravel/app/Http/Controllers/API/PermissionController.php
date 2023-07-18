@@ -49,7 +49,7 @@ class PermissionController extends Controller
             ]);
         } catch (\Exception $e) {
             $error = $e->getMessage();
-            return response()->json(compact('e'), 404);
+            return response()->json(compact('error'), 404);
         }
     }
 
@@ -72,7 +72,6 @@ class PermissionController extends Controller
                     ->where('users_types_menus_rel.id_users_types', $type->id)->get();
 
                 if (!empty($usersTypesMeusRel)) {
-
                     $typeJson = array(
                         "id" => $type->id,
                         "userTypeName" => $type->name,
@@ -96,7 +95,6 @@ class PermissionController extends Controller
             return response()->json(compact('error'), 404);
         }
     }
-
 
     public function update(Request $request)
     {

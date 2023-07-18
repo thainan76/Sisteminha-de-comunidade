@@ -57,36 +57,37 @@ services:
       - app-network
 
   #Mysql DB
-  #mysql:
-  #  image: mysql:8.0
-  #  container_name: db
-  #  restart: unless-stopped
-  #  tty: true
-  #  ports:
-  #      - "3306:3306"
-  #  environment:
-  #      MYSQL_DATABASE: movimentesim
-  #      MYSQL_ROOT_PASSWORD: root
-  #      SERVICE_TAGS: dev
-  #      SERVICE_NAME: mysql
-  #  volumes:
-  #    - ../mysql:/mysql
-  #  networks:
-  #    - app-network
+  mysql:
+    command: --max_allowed_packet=32505856
+    image: mysql:8.0
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+        - "3306:3306"
+    environment:
+        MYSQL_DATABASE: ebef
+        MYSQL_ROOT_PASSWORD: Aydg/M^Z<20eexES$hM
+        SERVICE_TAGS: dev
+        SERVICE_NAME: mysql
+    volumes:
+      - ../mysql:/mysql
+    networks:
+      - app-network
 
   #PHPADMIN DB
-  #phpmyadmin:
-  #  image: phpmyadmin/phpmyadmin
-  #  ports:
-  #    - "7000:80"
-  #  links:
-  #    - mysql:db
-  #  environment:
-  #    MYSQL_USER: root
-  #    MYSQL_PASSWORD: root
-  #    MYSQL_ROOT_PASSWORD: root
-  #  networks:
-  #    - app-network
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "7000:80"
+    links:
+      - mysql:db
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - app-network
 
 #Docker Networks
 networks:

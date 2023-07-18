@@ -29,7 +29,7 @@ return new class extends Migration
 
         DB::table('users_menus')->insert([
             array(
-                'menu' => 'Usuário'
+                'menu' => 'Usuários'
             ),
             array(
                 'menu' => 'Permissões'

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UsersMenus extends Model
+class CoursesContent extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class UsersMenus extends Model
      *
      * @var string
      */
-    protected $table = 'users_menus';
+    protected $table = 'courses_content';
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +22,11 @@ class UsersMenus extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'menu',
+        'id',
+        'id_courses',
+        'id_courses_types',
+        'name',
+        'url',
+        'description'
     ];
 }
