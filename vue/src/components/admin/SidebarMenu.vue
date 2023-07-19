@@ -16,13 +16,6 @@
       data-kt-menu="true"
       data-kt-menu-expand="false"
     >
-      <!--<div class="menu-item">
-                <div class="menu-content pt-8 pb-2">
-                  <span class="menu-section text-muted text-uppercase fs-8 ls-1"
-                    >Crafted</span
-                  >
-                </div>
-              </div>-->
       <div
         data-kt-menu-trigger="click"
         class="menu-item menu-accordion"
@@ -35,8 +28,10 @@
           class="menu-item menu-accordion"
         >
           <span class="menu-link">
-            <span class="menu-bullet">
-              <span class="bullet bullet-dot"></span>
+            <span class="menu-icon">
+              <span class="material-symbols-outlined">
+                {{ menu.classIcon }}
+              </span>
             </span>
             <span class="menu-title">{{ menu.nameMenu }}</span>
             <span class="menu-arrow"></span>
@@ -48,8 +43,10 @@
           >
             <div class="menu-item">
               <a class="menu-link" @click="goTo(child.name)">
-                <span class="menu-bullet">
-                  <span class="bullet bullet-dot"></span>
+                <span class="menu-icon">
+                  <span class="material-symbols-outlined">
+                    {{ child.classIcon }}
+                  </span>
                 </span>
                 <span class="menu-title">{{ child.nameMenu }}</span>
               </a>
@@ -68,50 +65,8 @@
           >
             <span class="menu-icon">
               <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
-              <span class="svg-icon svg-icon-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <rect
-                    x="2"
-                    y="2"
-                    width="9"
-                    height="9"
-                    rx="2"
-                    fill="currentColor"
-                  ></rect>
-                  <rect
-                    opacity="0.3"
-                    x="13"
-                    y="2"
-                    width="9"
-                    height="9"
-                    rx="2"
-                    fill="currentColor"
-                  ></rect>
-                  <rect
-                    opacity="0.3"
-                    x="13"
-                    y="13"
-                    width="9"
-                    height="9"
-                    rx="2"
-                    fill="currentColor"
-                  ></rect>
-                  <rect
-                    opacity="0.3"
-                    x="2"
-                    y="13"
-                    width="9"
-                    height="9"
-                    rx="2"
-                    fill="currentColor"
-                  ></rect>
-                </svg>
+              <span class="material-symbols-outlined">
+                {{ menu.classIcon }}
               </span>
               <!--end::Svg Icon-->
             </span>

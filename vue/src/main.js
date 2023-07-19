@@ -10,6 +10,7 @@ import moment from 'moment';
 import interceptor from './http.js';
 import VueTheMask from 'vue-the-mask';
 import mitt from 'mitt';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 
 const emitter = mitt();
@@ -26,6 +27,7 @@ app.use(store);
 app.use(VueAxios, interceptor);
 app.use(VueTheMask);
 app.use(Notifications);
+app.use( CKEditor );
 
 app.config.globalProperties.$filters = {
     moment(date) {

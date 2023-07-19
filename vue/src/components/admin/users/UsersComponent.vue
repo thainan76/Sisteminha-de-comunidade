@@ -50,107 +50,189 @@
       <div id="kt_content_container" class="container-xxl">
         <!--begin::About card-->
         <div class="card">
-          <!--begin::Body-->
-          <div class="card-body p-lg-17">
-            <div class="table-responsive">
-              <table class="table table-striped gy-7 gs-7">
-                <thead>
-                  <tr
-                    class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200"
-                  >
-                    <th class="min-w-50px"></th>
-                    <th class="min-w-150px">Nome</th>
-                    <th class="min-w-200px">Email</th>
-                    <th class="min-w-150px">Tipo usuário</th>
-                    <th class="min-w-50px">Data de criação</th>
-                    <th class="min-w-50px"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="user in users.data" :key="user.id">
-                    <td>
-                      <div
-                        class="cursor-pointer symbol symbol-30px symbol-md-40px"
-                        data-kt-menu-trigger="click"
-                        data-kt-menu-attach="parent"
-                        data-kt-menu-placement="bottom-end"
-                      >
+          <!--begin::Card body-->
+          <div class="card-body py-4">
+            <!--begin::Table-->
+            <table
+              class="table align-middle table-row-dashed fs-6 gy-5"
+              id="kt_table_users"
+            >
+              <!--begin::Table head-->
+              <thead>
+                <!--begin::Table row-->
+                <tr
+                  class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
+                >
+                  <th class="w-10px pe-2">
+                    <div
+                      class="form-check form-check-sm form-check-custom form-check-solid me-3"
+                    >
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        data-kt-check="true"
+                        data-kt-check-target="#kt_table_users .form-check-input"
+                        value="1"
+                      />
+                    </div>
+                  </th>
+                  <th class="min-w-80px">Usuários</th>
+                  <th class="min-w-125px">Tipo usuário</th>
+                  <th class="min-w-125px">Data de criação</th>
+                  <th class="min-w-125px">Último login</th>
+                  <th class="text-end min-w-100px"></th>
+                </tr>
+                <!--end::Table row-->
+              </thead>
+              <!--end::Table head-->
+              <!--begin::Table body-->
+              <tbody class="text-gray-600 fw-bold">
+                <tr v-for="user in users.data" :key="user.id">
+                  <!--begin::Checkbox-->
+                  <td>
+                    <div
+                      class="form-check form-check-sm form-check-custom form-check-solid"
+                    >
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="1"
+                      />
+                    </div>
+                  </td>
+                  <!--end::Checkbox-->
+                  <td class="d-flex align-items-center">
+                    <div
+                      class="symbol symbol-circle symbol-50px overflow-hidden me-3"
+                    >
+                      <div class="symbol-label">
                         <img
                           v-if="user.avatar"
                           :src="user.avatar"
+                          :alt="user.name"
+                          class="w-100"
                           style="object-fit: cover"
                         />
-                        <img v-else src="@/assets/media/avatars/blank.png" />
+                        <img
+                          v-else
+                          src="@/assets/media/avatars/blank.png"
+                          class="w-100"
+                          style="object-fit: cover"
+                        />
                       </div>
-                    </td>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.userTypeName }}</td>
-                    <td>
-                      {{
-                        $filters.moment(user.created_at).format("DD/MM/YYYY")
-                      }}
-                    </td>
-                    <td
-                      class="d-flex flex-row align-item-center justify-content-center p-4 h-100 w-100"
+                    </div>
+                    <div class="d-flex flex-column">
+                      <a
+                        href="#"
+                        class="text-gray-800 text-hover-primary mb-1"
+                        >{{ user.name }}</a
+                      >
+                      <span>{{ user.email }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="badge badge-light fw-bolder">
+                      {{ user.userTypeName }}
+                    </div>
+                  </td>
+                  <td>
+                    {{ $filters.moment(user.created_at).format("DD/MM/YYYY") }}
+                  </td>
+                  <td>05 May 2022, 2:40 pm</td>
+                  <td class="text-end">
+                    <button
+                      class="btn btn-light btn-active-light-primary btn-sm"
+                      :class="{
+                        'show menu-dropdown': user.dropdownAction,
+                      }"
+                      data-kt-menu-placement="bottom-end"
+                      @click="openDrownDown(user.id)"
                     >
-                      <div
-                        v-if="permissions.update"
-                        class="text-decoration-none cursor-pointer m-2 d-flex flex-row align-item-center justify-content-center"
-                        @click="goToEdit(user.id)"
-                      >
-                        <span class="material-symbols-outlined font-size-22"
-                          >edit_square</span
+                      Ações
+                      <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+                      <span class="svg-icon svg-icon-5 m-0">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <path
+                            d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </span>
+                      <!--end::Svg Icon-->
+                    </button>
+                    <!--begin::Menu-->
+                    <div
+                      class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
+                      :class="{
+                        'show menu-dropdown position-absolute': user.dropdownAction,
+                      }"
+                    >
+                      <!--begin::Menu item-->
+                      <div v-if="permissions.update" class="menu-item px-3">
+                        <a @click="goToEdit(user.id)" class="menu-link px-3"
+                          >Editar</a
                         >
                       </div>
-                      <button
+                      <!--end::Menu item-->
+                      <!--begin::Menu item-->
+                      <div
                         v-if="myId != user.id && permissions.delete"
-                        class="btn-delete text-decoration-none cursor-pointer m-2 d-flex flex-row align-item-center justify-content-center"
-                        @click="deleteUser(user.id)"
+                        class="menu-item px-3"
                       >
-                        <span class="material-symbols-outlined font-size-22"
-                          >delete</span
+                        <a @click="deleteUser(user.id)" class="menu-link px-3"
+                          >Excluir</a
                         >
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <ul class="pagination pagination-circle pagination-outline">
-                <li
-                  class="page-item m-1"
-                  :class="{ active: link.active, disabled: !link.url }"
-                  v-for="(link, key) in users.links"
-                  :key="link.id"
+                      </div>
+                      <!--end::Menu item-->
+                    </div>
+                    <!--end::Menu-->
+                  </td>
+                  <!--end::Action=-->
+                </tr>
+              </tbody>
+              <!--end::Table body-->
+            </table>
+            <!--end::Table-->
+            <ul class="pagination pagination-circle pagination-outline">
+              <li
+                class="page-item m-1"
+                :class="{ active: link.active, disabled: !link.url }"
+                v-for="(link, key) in users.links"
+                :key="link.id"
+              >
+                <a
+                  href="#"
+                  @click="paginate(link.url)"
+                  class="page-link"
+                  v-if="key == 0"
                 >
-                  <a
-                    href="#"
-                    @click="paginate(link.url)"
-                    class="page-link"
-                    v-if="key == 0"
-                  >
-                    <i class="previous"></i>
-                  </a>
-                  <a
-                    href="#"
-                    @click="paginate(link.url)"
-                    class="page-link"
-                    v-else-if="key == users.links.length - 1"
-                  >
-                    <i class="next"></i>
-                  </a>
-                  <a
-                    href="#"
-                    class="page-link"
-                    @click="paginate(link.url)"
-                    v-else
-                    >{{ link.label }}</a
-                  >
-                </li>
-              </ul>
-            </div>
+                  <i class="previous"></i>
+                </a>
+                <a
+                  href="#"
+                  @click="paginate(link.url)"
+                  class="page-link"
+                  v-else-if="key == users.links.length - 1"
+                >
+                  <i class="next"></i>
+                </a>
+                <a
+                  href="#"
+                  class="page-link"
+                  @click="paginate(link.url)"
+                  v-else
+                  >{{ link.label }}</a
+                >
+              </li>
+            </ul>
           </div>
-          <!--end::Body-->
+          <!--end::Card body-->
         </div>
         <!--end::About card-->
       </div>
@@ -168,7 +250,7 @@ export default {
         create: 0,
         delete: 0,
         update: 0,
-        read: 0
+        read: 0,
       },
     };
   },
@@ -188,6 +270,17 @@ export default {
     this.getUsers();
   },
   methods: {
+    openDrownDown(id) {
+      this.users.data.forEach((user) => {
+        if (user.id == id && !user.dropdownAction) {
+          user.dropdownAction = true;
+          return;
+        }
+
+        user.dropdownAction = false;
+        return;
+      });
+    },
     setPermissions() {
       this.permissions = this.$root.configPermissions.menus.find((menu) => {
         return menu.menuName.toLowerCase() === "usuários";
