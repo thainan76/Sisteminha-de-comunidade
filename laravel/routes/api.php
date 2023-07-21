@@ -5,6 +5,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\CoursesController;
+use App\Http\Controllers\API\CommunityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,4 +59,9 @@ Route::controller(CoursesController::class)->group(function () {
     Route::get('/courses/getCourseById/{id}', 'getCourseById');
     Route::put('/courses/updateCourse', 'updateCourse');
     Route::delete('/courses/delete/{id}', 'delete');
+});
+
+Route::controller(CommunityController::class)->group(function () {
+    Route::get('/community/getAllPost', 'getAllPost');
+    Route::post('/community/createPost', 'createPost');
 });

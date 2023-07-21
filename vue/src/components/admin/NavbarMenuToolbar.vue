@@ -2,14 +2,14 @@
   <div class="d-flex align-items-stretch flex-shrink-0">
     <!--begin::Theme mode-->
     <!--<div class="d-flex align-items-center ms-1 ms-lg-3">
-                  <a
-                    class="btn btn-icon btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px"
-                    href="../../demo1/dist/documentation/getting-started/dark-mode.html"
-                  >
-                    <i class="fonticon-sun fs-2"></i>
-                  </a>
-                </div>
-                -->
+                <a
+                  class="btn btn-icon btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px"
+                  href="../../demo1/dist/documentation/getting-started/dark-mode.html"
+                >
+                  <i class="fonticon-sun fs-2"></i>
+                </a>
+              </div>
+              -->
     <!--end::Theme mode-->
     <div
       class="d-flex align-items-center ms-1 ms-lg-3"
@@ -25,7 +25,7 @@
         <img
           :src="user.avatar ? user.avatar : '@/assets/media/avatars/300-1.jpg'"
           alt="user"
-          style="object-fit: cover;"
+          style="object-fit: cover"
         />
       </div>
       <!--begin::User account menu-->
@@ -51,9 +51,9 @@
               <div class="fw-bolder d-flex align-items-center fs-5">
                 {{ user.name }}
                 <!--<span
-                              class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2"
-                              >Pro</span
-                            >-->
+                            class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2"
+                            >Pro</span
+                          >-->
               </div>
               <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{
                 user.email
@@ -74,12 +74,12 @@
         <!--end::Menu separator-->
 
         <!--<div class="menu-item px-5 my-1">
-                      <a
-                        href="../../demo1/dist/account/settings.html"
-                        class="menu-link px-5"
-                        >Configurações</a
-                      >
-                    </div>-->
+                    <a
+                      href="../../demo1/dist/account/settings.html"
+                      class="menu-link px-5"
+                      >Configurações</a
+                    >
+                  </div>-->
         <!--end::Menu item-->
         <!--begin::Menu item-->
         <div class="menu-item px-5">
@@ -116,7 +116,7 @@
     </div>
     <!--end::User menu-->
     <!--begin::Header menu toggle-->
-    <div
+    <!--div
       class="d-flex align-items-center d-lg-none ms-2 me-n3"
       title="Show header menu"
     >
@@ -124,7 +124,6 @@
         class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
         id="kt_header_menu_mobile_toggle"
       >
-        <!--begin::Svg Icon | path: icons/duotune/text/txt001.svg-->
         <span class="svg-icon svg-icon-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -144,9 +143,8 @@
             />
           </svg>
         </span>
-        <!--end::Svg Icon-->
       </div>
-    </div>
+    </div>-->
     <!--end::Header menu toggle-->
   </div>
 </template>
@@ -160,7 +158,7 @@ export default {
         avatar: null,
         id: null,
       },
-      theme: false,
+      themeLight: true,
     };
   },
   methods: {
@@ -170,14 +168,21 @@ export default {
     },
 
     logout() {
-      this.emitter.emit("theme", false);
       this.setAuth(null);
       this.$router.push("/logout");
     },
 
-    changeTheme () {
-      this.emitter.emit("theme", !this.theme);
-    }
+    changeTheme() {
+      if (!this.themeLight) {
+        this.themeLight = true;
+        window.KTApp.setThemeMode("light");
+      } else {
+        this.themeLight = false;
+        window.KTApp.setThemeMode("dark");
+      }
+
+      window.KTApp.initPageLoader();
+    },
   },
   mounted() {
     this.emitter.on("user", (data) => {

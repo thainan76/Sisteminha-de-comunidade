@@ -52,153 +52,158 @@
         <div class="card">
           <!--begin::Card body-->
           <div class="card-body py-4">
-            <!--begin::Table-->
-            <table
-              class="table align-middle table-row-dashed fs-6 gy-5"
-              id="kt_table_users"
-            >
-              <!--begin::Table head-->
-              <thead>
-                <!--begin::Table row-->
-                <tr
-                  class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
-                >
-                  <th class="w-10px pe-2">
-                    <div
-                      class="form-check form-check-sm form-check-custom form-check-solid me-3"
-                    >
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        data-kt-check="true"
-                        data-kt-check-target="#kt_table_users .form-check-input"
-                        value="1"
-                      />
-                    </div>
-                  </th>
-                  <th class="min-w-80px">Usuários</th>
-                  <th class="min-w-125px">Tipo usuário</th>
-                  <th class="min-w-125px">Data de criação</th>
-                  <th class="min-w-125px">Último login</th>
-                  <th class="text-end min-w-100px"></th>
-                </tr>
-                <!--end::Table row-->
-              </thead>
-              <!--end::Table head-->
-              <!--begin::Table body-->
-              <tbody class="text-gray-600 fw-bold">
-                <tr v-for="user in users.data" :key="user.id">
-                  <!--begin::Checkbox-->
-                  <td>
-                    <div
-                      class="form-check form-check-sm form-check-custom form-check-solid"
-                    >
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="1"
-                      />
-                    </div>
-                  </td>
-                  <!--end::Checkbox-->
-                  <td class="d-flex align-items-center">
-                    <div
-                      class="symbol symbol-circle symbol-50px overflow-hidden me-3"
-                    >
-                      <div class="symbol-label">
-                        <img
-                          v-if="user.avatar"
-                          :src="user.avatar"
-                          :alt="user.name"
-                          class="w-100"
-                          style="object-fit: cover"
-                        />
-                        <img
-                          v-else
-                          src="@/assets/media/avatars/blank.png"
-                          class="w-100"
-                          style="object-fit: cover"
-                        />
-                      </div>
-                    </div>
-                    <div class="d-flex flex-column">
-                      <a
-                        href="#"
-                        class="text-gray-800 text-hover-primary mb-1"
-                        >{{ user.name }}</a
-                      >
-                      <span>{{ user.email }}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="badge badge-light fw-bolder">
-                      {{ user.userTypeName }}
-                    </div>
-                  </td>
-                  <td>
-                    {{ $filters.moment(user.created_at).format("DD/MM/YYYY") }}
-                  </td>
-                  <td>05 May 2022, 2:40 pm</td>
-                  <td class="text-end">
-                    <button
-                      class="btn btn-light btn-active-light-primary btn-sm"
-                      :class="{
-                        'show menu-dropdown': user.dropdownAction,
-                      }"
-                      data-kt-menu-placement="bottom-end"
-                      @click="openDrownDown(user.id)"
-                    >
-                      Ações
-                      <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
-                      <span class="svg-icon svg-icon-5 m-0">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <path
-                            d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </span>
-                      <!--end::Svg Icon-->
-                    </button>
-                    <!--begin::Menu-->
-                    <div
-                      class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
-                      :class="{
-                        'show menu-dropdown position-absolute': user.dropdownAction,
-                      }"
-                    >
-                      <!--begin::Menu item-->
-                      <div v-if="permissions.update" class="menu-item px-3">
-                        <a @click="goToEdit(user.id)" class="menu-link px-3"
-                          >Editar</a
-                        >
-                      </div>
-                      <!--end::Menu item-->
-                      <!--begin::Menu item-->
+            <div class="table-responsive">
+              <!--begin::Table-->
+              <table
+                class="table align-middle table-row-dashed fs-6 gy-5"
+                id="kt_table_users"
+              >
+                <!--begin::Table head-->
+                <thead>
+                  <!--begin::Table row-->
+                  <tr
+                    class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
+                  >
+                    <th class="w-10px pe-2">
                       <div
-                        v-if="myId != user.id && permissions.delete"
-                        class="menu-item px-3"
+                        class="form-check form-check-sm form-check-custom form-check-solid me-3"
                       >
-                        <a @click="deleteUser(user.id)" class="menu-link px-3"
-                          >Excluir</a
-                        >
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          data-kt-check="true"
+                          data-kt-check-target="#kt_table_users .form-check-input"
+                          value="1"
+                        />
                       </div>
-                      <!--end::Menu item-->
-                    </div>
-                    <!--end::Menu-->
-                  </td>
-                  <!--end::Action=-->
-                </tr>
-              </tbody>
-              <!--end::Table body-->
-            </table>
-            <!--end::Table-->
+                    </th>
+                    <th class="min-w-80px">Usuários</th>
+                    <th class="min-w-125px">Tipo usuário</th>
+                    <th class="min-w-125px">Data de criação</th>
+                    <th class="min-w-125px">Último login</th>
+                    <th class="text-end min-w-100px"></th>
+                  </tr>
+                  <!--end::Table row-->
+                </thead>
+                <!--end::Table head-->
+                <!--begin::Table body-->
+                <tbody class="text-gray-600 fw-bold">
+                  <tr v-for="user in users.data" :key="user.id">
+                    <!--begin::Checkbox-->
+                    <td>
+                      <div
+                        class="form-check form-check-sm form-check-custom form-check-solid"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          value="1"
+                        />
+                      </div>
+                    </td>
+                    <!--end::Checkbox-->
+                    <td class="d-flex align-items-center">
+                      <div
+                        class="symbol symbol-circle symbol-50px overflow-hidden me-3"
+                      >
+                        <div class="symbol-label">
+                          <img
+                            v-if="user.avatar"
+                            :src="user.avatar"
+                            :alt="user.name"
+                            class="w-100"
+                            style="object-fit: cover"
+                          />
+                          <img
+                            v-else
+                            src="@/assets/media/avatars/blank.png"
+                            class="w-100"
+                            style="object-fit: cover"
+                          />
+                        </div>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <a
+                          href="#"
+                          class="text-gray-800 text-hover-primary mb-1"
+                          >{{ user.name }}</a
+                        >
+                        <span>{{ user.email }}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="badge badge-light fw-bolder">
+                        {{ user.userTypeName }}
+                      </div>
+                    </td>
+                    <td>
+                      {{
+                        $filters.moment(user.created_at).format("DD/MM/YYYY")
+                      }}
+                    </td>
+                    <td>05 May 2022, 2:40 pm</td>
+                    <td class="text-end">
+                      <button
+                        class="btn btn-light btn-active-light-primary btn-sm"
+                        :class="{
+                          'show menu-dropdown': user.dropdownAction,
+                        }"
+                        data-kt-menu-placement="bottom-end"
+                        @click="openDrownDown(user.id)"
+                      >
+                        Ações
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+                        <span class="svg-icon svg-icon-5 m-0">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                      </button>
+                      <!--begin::Menu-->
+                      <div
+                        class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
+                        :class="{
+                          'show menu-dropdown position-absolute':
+                            user.dropdownAction,
+                        }"
+                      >
+                        <!--begin::Menu item-->
+                        <div v-if="permissions.update" class="menu-item px-3">
+                          <a @click="goToEdit(user.id)" class="menu-link px-3"
+                            >Editar</a
+                          >
+                        </div>
+                        <!--end::Menu item-->
+                        <!--begin::Menu item-->
+                        <div
+                          v-if="myId != user.id && permissions.delete"
+                          class="menu-item px-3"
+                        >
+                          <a @click="deleteUser(user.id)" class="menu-link px-3"
+                            >Excluir</a
+                          >
+                        </div>
+                        <!--end::Menu item-->
+                      </div>
+                      <!--end::Menu-->
+                    </td>
+                    <!--end::Action=-->
+                  </tr>
+                </tbody>
+                <!--end::Table body-->
+              </table>
+              <!--end::Table-->
+            </div>
             <ul class="pagination pagination-circle pagination-outline">
               <li
                 class="page-item m-1"

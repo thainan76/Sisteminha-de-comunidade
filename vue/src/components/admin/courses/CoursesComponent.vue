@@ -95,13 +95,13 @@
                     </td>
                     <!--end::Checkbox-->
                     <td>Nome curso 1</td>
-                    <td class="text-overflow-line-1" style="font-weight: 300;">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    <td style="font-weight: 300;">
+                      <span class="text-overflow-line-1" >ipsum dolor sit amet, consectetur adipiscing elit.
                       Quisque hendrerit iaculis congue. Maecenas lobortis
                       scelerisque pretium. In euismod ante quis sem blandit
                       iaculis. Integer lectus libero, iaculis id pretium sit
                       amet, imperdiet vel nulla. Proin tristique varius velit,
-                      vitae viverra risus ultrices eget.
+                      vitae viverra risus ultrices eget.</span>
                     </td>
                     <td>
                       <div class="badge badge-light fw-bolder">R$ 100,00</div>
@@ -205,7 +205,7 @@ export default {
   overflow: hidden !important;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 </style>
