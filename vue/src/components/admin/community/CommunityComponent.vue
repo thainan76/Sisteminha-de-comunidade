@@ -562,7 +562,7 @@ export default {
       loadingFirst: false,
       description: null,
       user: {
-        avatar: null,
+        avatar: "",
         name: null,
         userTypeName: null,
       },
@@ -679,7 +679,7 @@ export default {
     const listElm = document.documentElement;
     window.onscroll = () => {
       //console.log(e, listElm);
-      if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+      if (listElm.scrollTop + listElm.clientHeight >= (listElm.scrollHeight - 150)) {
         if (this.nextPage) {
           if (!this.loadingMore) {
             this.loadMore();
