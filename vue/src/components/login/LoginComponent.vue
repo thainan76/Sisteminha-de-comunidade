@@ -16,21 +16,21 @@
             <a href="#" class="py-5">
               <img
                 alt="Logo"
-                src="@/assets/favicon_movimentesim.png"
+                src="/media/ebef-icon-azul.png"
                 class="h-60px"
               />
             </a>
             <!--end::Logo-->
             <!--begin::Title-->
-            <h1 class="fw-bolder fs-2qx pb-3 pb-md-5" style="color: #fff">
+            <!--<h1 class="fw-bolder fs-2qx pb-3 pb-md-5" style="color: #fff">
               Bem-vindo ao <br />
               MovimentoSIM
-            </h1>
+            </h1>-->
             <!--end::Title-->
             <!--begin::Description-->
-            <p class="fw-bold fs-2" style="color: #fff">
+            <!--<p class="fw-bold fs-2" style="color: #fff">
               Tornamos as coisas melhores
-            </p>
+            </p>-->
             <!--end::Description-->
           </div>
           <!--end::Content-->
@@ -53,7 +53,12 @@
               <!--begin::Heading-->
               <div class="text-center mb-10">
                 <!--begin::Title-->
-                <h1 class="text-dark mb-3">Logue com sua conta</h1>
+                <img
+                alt="Logo"
+                src="/media/ebef-azul.png"
+                class="h-100px"
+              />
+                <h1 class="font-size-16 mt-10 text-dark mb-3">Entre com sua conta</h1>
                 <!--end::Title-->
                 <!--begin::Link-->
                 <!--<div class="text-gray-400 fw-bold fs-4">
@@ -77,6 +82,7 @@
                   class="form-control form-control-lg form-control-solid"
                   type="text"
                   name="email"
+                  placeholder="Digite seu e-mail"
                   autocomplete="off"
                   v-model="email"
                 />
@@ -104,6 +110,7 @@
                   class="form-control form-control-lg form-control-solid"
                   type="password"
                   name="password"
+                  placeholder="Digite sua senha"
                   autocomplete="off"
                   v-model="password"
                 />
@@ -212,28 +219,28 @@
 
 <style scoped>
 .backgroundImage {
-  background: url(https://images.pexels.com/photos/6111611/pexels-photo-6111611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)
+  background: url(https://images.pexels.com/photos/3307862/pexels-photo-3307862.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)
       no-repeat center,
     linear-gradient(
       96.37deg,
-      #228b3c 0.2%,
-      #228b3c 22.59%,
-      #798f28 46.48%,
-      #f1960f 68.88%,
-      #fbb040 95.75%
+      #4c96ff 0.2%,
+      #2976e3 22.59%,
+      #2c7cec 46.48%,
+      #125fcb 68.88%,
+      #0f56bb 95.75%
     );
   background-blend-mode: multiply;
-  /*background-size: cover;*/
-  background-position: inherit;
+  background-size: cover;
+  /*background-position: inherit;*/
 }
 
 .link-movimentesim-verde {
-  color: #009e48;
+  color: #002457;
 }
 
 .btn-movimentesim-verde {
   color: #fff;
-  background: #1abd44;
+  background: #002457;
 }
 
 .bg-login {

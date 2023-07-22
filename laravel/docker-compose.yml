@@ -84,8 +84,8 @@ services:
       - mysql:db
     environment:
       MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: Aydg/M^Z<20eexES$hM
+      MYSQL_ROOT_PASSWORD: Aydg/M^Z<20eexES$hM
     networks:
       - app-network
 

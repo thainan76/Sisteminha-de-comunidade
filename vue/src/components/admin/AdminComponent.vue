@@ -19,7 +19,7 @@
         <div class="aside-logo flex-column-auto" id="kt_aside_logo">
           <!--begin::Logo-->
           <a href="#">
-            <img alt="Logo" src="/media/ebef_logo.webp" class="h-25px logo" />
+            <img alt="Logo" src="/media/ebef-branco.png" class="h-50px logo" />
           </a>
           <!--end::Logo-->
           <!--begin::Aside toggler-->
@@ -112,11 +112,7 @@
             <!--begin::Mobile logo-->
             <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
               <a href="#" class="d-lg-none">
-                <img
-                  alt="Logo"
-                  src="data:image/png;base64,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"
-                  class="h-30px"
-                />
+                <img alt="Logo" src="/media/ebef-azul.png" class="h-30px" />
               </a>
             </div>
             <!--end::Mobile logo-->
@@ -152,7 +148,7 @@
       class="page-loader d-flex flex-column align-items-center justify-content-center"
       :class="{ 'd-block': loadingGlobal, 'd-none': !loadingGlobal }"
     >
-      <span class="spinner-border text-primary" role="status"></span>
+      <img alt="Logo" src="/media/ebef-azul.png" class="h-30px" />
       <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
     </div>
     <!--end::Page loading-->

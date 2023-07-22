@@ -75,55 +75,9 @@
                     >
                       <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
                       <span class="svg-icon svg-icon-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24px"
-                          height="24px"
-                          viewBox="0 0 24 24"
-                        >
-                          <g
-                            stroke="none"
-                            stroke-width="1"
-                            fill="none"
-                            fill-rule="evenodd"
-                          >
-                            <rect
-                              x="5"
-                              y="5"
-                              width="5"
-                              height="5"
-                              rx="1"
-                              fill="currentColor"
-                            />
-                            <rect
-                              x="14"
-                              y="5"
-                              width="5"
-                              height="5"
-                              rx="1"
-                              fill="currentColor"
-                              opacity="0.3"
-                            />
-                            <rect
-                              x="5"
-                              y="14"
-                              width="5"
-                              height="5"
-                              rx="1"
-                              fill="currentColor"
-                              opacity="0.3"
-                            />
-                            <rect
-                              x="14"
-                              y="14"
-                              width="5"
-                              height="5"
-                              rx="1"
-                              fill="currentColor"
-                              opacity="0.3"
-                            />
-                          </g>
-                        </svg>
+                        <span class="material-symbols-outlined">
+                          more_vert
+                        </span>
                       </span>
                       <!--end::Svg Icon-->
                     </button>
@@ -365,55 +319,11 @@
                     >
                       <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
                       <span class="svg-icon svg-icon-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24px"
-                          height="24px"
-                          viewBox="0 0 24 24"
+                        <span
+                          class="material-symbols-outlined material-symbols-outlined"
                         >
-                          <g
-                            stroke="none"
-                            stroke-width="1"
-                            fill="none"
-                            fill-rule="evenodd"
-                          >
-                            <rect
-                              x="5"
-                              y="5"
-                              width="5"
-                              height="5"
-                              rx="1"
-                              fill="currentColor"
-                            />
-                            <rect
-                              x="14"
-                              y="5"
-                              width="5"
-                              height="5"
-                              rx="1"
-                              fill="currentColor"
-                              opacity="0.3"
-                            />
-                            <rect
-                              x="5"
-                              y="14"
-                              width="5"
-                              height="5"
-                              rx="1"
-                              fill="currentColor"
-                              opacity="0.3"
-                            />
-                            <rect
-                              x="14"
-                              y="14"
-                              width="5"
-                              height="5"
-                              rx="1"
-                              fill="currentColor"
-                              opacity="0.3"
-                            />
-                          </g>
-                        </svg>
+                          more_vert
+                        </span>
                       </span>
                       <!--end::Svg Icon-->
                     </button>
@@ -535,10 +445,7 @@
                     rows="1"
                     placeholder="Reply.."
                   ></textarea>
-                  <div class="position-absolute top-0 end-0 me-n5">
-
-                    
-                  </div>
+                  <div class="position-absolute top-0 end-0 me-n5"></div>
                 </form>
                 <!--edit::Reply input-->
               </div>
@@ -619,22 +526,19 @@
             </div>
             <!-- eslint-enable -->
 
-            <div
-              v-if="loadingMore"
-              id="kt_widget_5_load_more_btn"
-            >
-              <span class="d-flex flex-row align-items-center justify-content-center"
+            <div v-if="loadingMore" id="kt_widget_5_load_more_btn">
+              <span
+                class="d-flex flex-row align-items-center justify-content-center"
                 >Carregando mais posts...
                 <span
                   class="spinner-border spinner-border-sm align-middle ms-2"
                 ></span>
               </span>
             </div>
-            <div
-              v-if="!nextPage"
-              id="kt_widget_5_load_more_btn"
-            >
-              <span class="d-flex flex-row align-items-center justify-content-center">
+            <div v-if="!nextPage" id="kt_widget_5_load_more_btn">
+              <span
+                class="d-flex flex-row align-items-center justify-content-center"
+              >
                 Acabou os posts, não tem mais nada!
               </span>
             </div>

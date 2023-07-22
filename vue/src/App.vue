@@ -53,4 +53,177 @@ export default {
     rgba(255, 255, 255, 0)
   );
 }
+
+.symbol > img {
+  object-fit: cover;
+}
+
+:root {
+  --ck-color-table-column-resizer-hover: #002457;
+  --ck-table-column-resizer-width: 7px;
+  --ck-table-column-resizer-position-offset: calc(
+    var(--ck-table-column-resizer-width) * -0.5 - 0.5px
+  );
+}
+
+body {
+  --fc-event-border-color: #002457;
+  --fc-event-bg-color: #002457;
+  --fc-event-text-color: #ffffff;
+}
+
+.btn.btn-active-color-primary.active .svg-icon {
+  color: #fff !important;
+}
+
+.btn.btn-active-color-primary:hover:not(.btn-active) .svg-icon {
+  color: #fff !important;
+}
+
+.btn.btn-primary {
+  color: #fff !important;
+  border-color: #002457 !important;
+  background-color: #002457 !important;
+}
+
+.btn.btn-primary:hover {
+  color: #fff !important;
+  border-color: #002457 !important;
+  background-color: #002457 !important;
+}
+
+.btn-check:active + .btn.btn-primary,
+.btn-check:checked + .btn.btn-primary,
+.btn.btn-primary.active,
+.btn.btn-primary.show,
+.btn.btn-primary:active:not(.btn-active),
+.btn.btn-primary:focus:not(.btn-active),
+.btn.btn-primary:hover:not(.btn-active),
+.show > .btn.btn-primary {
+  color: #fff !important;
+  border-color: #002457 !important;
+  background-color: #002457 !important;
+}
+
+.aside-dark
+  .menu
+  .menu-item.hover:not(.here)
+  > .menu-link:not(.disabled):not(.active):not(.here)
+  .menu-icon,
+.aside-dark
+  .menu
+  .menu-item.hover:not(.here)
+  > .menu-link:not(.disabled):not(.active):not(.here)
+  .menu-icon
+  .svg-icon,
+.aside-dark
+  .menu
+  .menu-item.hover:not(.here)
+  > .menu-link:not(.disabled):not(.active):not(.here)
+  .menu-icon
+  i,
+.aside-dark
+  .menu
+  .menu-item:not(.here)
+  .menu-link:hover:not(.disabled):not(.active):not(.here)
+  .menu-icon,
+.aside-dark
+  .menu
+  .menu-item:not(.here)
+  .menu-link:hover:not(.disabled):not(.active):not(.here)
+  .menu-icon
+  .svg-icon,
+.aside-dark
+  .menu
+  .menu-item:not(.here)
+  .menu-link:hover:not(.disabled):not(.active):not(.here)
+  .menu-icon
+  i {
+  color: #fff !important;
+}
+
+.page-item.active .page-link {
+  background-color: #002457 !important;
+}
+
+.page-link:hover {
+  color: #002457 !important;
+}
+
+.menu-state-primary
+  .menu-item.hover:not(.here)
+  > .menu-link:not(.disabled):not(.active):not(.here),
+.menu-state-primary
+  .menu-item:not(.here)
+  .menu-link:hover:not(.disabled):not(.active):not(.here) {
+  transition: color 0.2s ease, background-color 0.2s ease;
+  color: #002457;
+}
+
+.btn-check:active + .btn.btn-active-light-primary,
+.btn-check:checked + .btn.btn-active-light-primary,
+.btn.btn-active-light-primary.active,
+.btn.btn-active-light-primary.show,
+.btn.btn-active-light-primary:active:not(.btn-active),
+.btn.btn-active-light-primary:focus:not(.btn-active),
+.btn.btn-active-light-primary:hover:not(.btn-active),
+.show > .btn.btn-active-light-primary {
+  color: #002457 !important;
+  border-color: #f1faff;
+  background-color: #f1faff !important;
+}
+
+.btn-check:active + .btn.btn-active-light-primary .svg-icon,
+.btn-check:active + .btn.btn-active-light-primary i,
+.btn-check:checked + .btn.btn-active-light-primary .svg-icon,
+.btn-check:checked + .btn.btn-active-light-primary i,
+.btn.btn-active-light-primary.active .svg-icon,
+.btn.btn-active-light-primary.active i,
+.btn.btn-active-light-primary.show .svg-icon,
+.btn.btn-active-light-primary.show i,
+.btn.btn-active-light-primary:active:not(.btn-active) .svg-icon,
+.btn.btn-active-light-primary:active:not(.btn-active) i,
+.btn.btn-active-light-primary:focus:not(.btn-active) .svg-icon,
+.btn.btn-active-light-primary:focus:not(.btn-active) i,
+.btn.btn-active-light-primary:hover:not(.btn-active) .svg-icon,
+.btn.btn-active-light-primary:hover:not(.btn-active) i,
+.show > .btn.btn-active-light-primary .svg-icon,
+.show > .btn.btn-active-light-primary i {
+  color: #002457 !important;
+}
+
+.menu-state-bg-light-primary
+  .menu-item.hover:not(.here)
+  > .menu-link:not(.disabled):not(.active):not(.here),
+.menu-state-bg-light-primary
+  .menu-item:not(.here)
+  .menu-link:hover:not(.disabled):not(.active):not(.here) {
+  transition: color 0.2s ease, background-color 0.2s ease;
+  background-color: #f1faff;
+  color: #002457 !important;
+}
+
+.text-hover-primary:hover {
+  transition: color 0.2s ease, background-color 0.2s ease;
+  color: #002457 !important;
+}
+
+.pulse.pulse-success .pulse-ring {
+  border-color: #fff !important;
+}
+
+.form-check.form-check-solid .form-check-input:checked {
+  background-color: #002457 !important;
+}
+
+.btn.btn-light-primary {
+  color: #002457 !important;
+  border-color: #f1faff;
+  background-color: #f1faff;
+}
+
+.btn-check:active+.btn.btn-light-primary, .btn-check:checked+.btn.btn-light-primary, .btn.btn-light-primary.active, .btn.btn-light-primary.show, .btn.btn-light-primary:active:not(.btn-active), .btn.btn-light-primary:focus:not(.btn-active), .btn.btn-light-primary:hover:not(.btn-active), .show>.btn.btn-light-primary {
+  background-color: #002457!important;
+  color: #fff!important;
+}
 </style>
