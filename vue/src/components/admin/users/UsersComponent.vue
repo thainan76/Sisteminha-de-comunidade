@@ -105,7 +105,7 @@
                     <td>
                       <v-skeleton width="100%" height="4rem"></v-skeleton>
                     </td>
-                    <td class="text-end position-relative">
+                    <td class="text-end">
                       <v-skeleton width="100%" height="4rem"></v-skeleton>
                     </td>
                   </tr>
@@ -167,7 +167,7 @@
                         user.last_login ? $filters.moment(user.last_login).format("DD/MM/YYYY HH:mm:ss") : null
                       }}
                       </td>
-                    <td class="text-end">
+                    <td class="text-end position-relative">
                       <button
                         v-if="permissions.update || permissions.delete"
                         class="btn btn-light btn-active-light-primary btn-sm"
