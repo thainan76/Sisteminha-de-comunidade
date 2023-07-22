@@ -96,6 +96,11 @@ export default {
   },
   methods: {
     goTo(name) {
+      let width = document.querySelector("html").offsetWidth;
+      if (width <= 992) {
+        window.KTDrawer.hideAll();
+      }
+      
       this.$router.push({ name: name });
     },
 
