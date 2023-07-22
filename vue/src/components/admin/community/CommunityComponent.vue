@@ -681,7 +681,7 @@ export default {
       //console.log(e, listElm);
       if (listElm.scrollTop + listElm.clientHeight >= (listElm.scrollHeight - 150)) {
         if (this.nextPage) {
-          if (!this.loadingMore) {
+          if (!this.loadingMore && this.loadingFirst) {
             this.loadMore();
           }
         }
@@ -726,7 +726,7 @@ export default {
           this.$notify({
             type: "error",
             title: "Erro!",
-            text: error.response.data.message,
+            text: error,
           });
         });
     },

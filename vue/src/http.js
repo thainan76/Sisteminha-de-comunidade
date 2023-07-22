@@ -1,6 +1,7 @@
 import axios from 'axios';
 import storeUser from '@/components/store/storeUser.js';
 let api = 'http://localhost:8000/api/';
+//let api = 'http://154.56.40.58:8080/api/';
 import router from "./router.js";
 
 const http = axios.create({
