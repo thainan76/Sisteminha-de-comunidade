@@ -681,7 +681,9 @@ export default {
       //console.log(e, listElm);
       if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
         if (this.nextPage) {
-          this.loadMore();
+          if (!this.loadingMore) {
+            this.loadMore();
+          }
         }
       }
     };
@@ -866,4 +868,8 @@ export default {
   background: transparent !important;
   border: #fff!important;
 }*/
+
+p > img {
+  width: 100%;
+}
 </style>

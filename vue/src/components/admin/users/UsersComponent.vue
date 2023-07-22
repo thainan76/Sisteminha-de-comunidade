@@ -105,7 +105,7 @@
                     <td>
                       <v-skeleton width="100%" height="4rem"></v-skeleton>
                     </td>
-                    <td class="text-end">
+                    <td class="text-end position-relative">
                       <v-skeleton width="100%" height="4rem"></v-skeleton>
                     </td>
                   </tr>
