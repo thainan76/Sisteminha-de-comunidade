@@ -88,7 +88,28 @@
                 <!--end::Table head-->
                 <!--begin::Table body-->
                 <tbody class="text-gray-600 fw-bold">
-                  <tr v-for="user in users.data" :key="user.id">
+                  <!-- eslint-disable -->
+                  <tr v-if="loading" v-for="skeleton in [0,1,2,3,4,5,6,7,8,9]" :key="skeleton">
+                    <td>
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td>
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td>
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td>
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td class="text-end">
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                  </tr>
+                  <tr v-if="!loading" v-for="user in users.data" :key="user.id">
                     <!--begin::Checkbox-->
                     <td>
                       <div
@@ -141,9 +162,14 @@
                         $filters.moment(user.created_at).format("DD/MM/YYYY")
                       }}
                     </td>
-                    <td>05 May 2022, 2:40 pm</td>
+                    <td>
+                      {{
+                        user.last_login ? $filters.moment(user.last_login).format("DD/MM/YYYY HH:mm:ss") : null
+                      }}
+                      </td>
                     <td class="text-end">
                       <button
+                        v-if="permissions.update || permissions.delete"
                         class="btn btn-light btn-active-light-primary btn-sm"
                         :class="{
                           'show menu-dropdown': user.dropdownAction,
@@ -199,6 +225,7 @@
                     </td>
                     <!--end::Action=-->
                   </tr>
+                  <!-- eslint-enable -->
                 </tbody>
                 <!--end::Table body-->
               </table>
@@ -257,6 +284,7 @@ export default {
         update: 0,
         read: 0,
       },
+      loading: false,
     };
   },
   beforeCreate() {
@@ -292,6 +320,8 @@ export default {
       });
     },
     getUsers() {
+      this.loading = true;
+
       let tokenAuth = this.$store.state.userAuth.authorization.token;
 
       let header = {
@@ -306,6 +336,8 @@ export default {
           let data = response.data;
 
           this.users = data.user;
+
+          this.loading = false;
         });
     },
 

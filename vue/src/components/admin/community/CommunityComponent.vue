@@ -35,10 +35,10 @@
       <!--begin::Container-->
       <div id="kt_content_container" class="container-fluid">
         <!--begin::Row-->
-        <div class="row g-5 g-xl-8">
+        <div class="row g-5 g-xl-8" id="posts">
           <!--begin::Col-->
           <div class="col-xl-9">
-            <!--begin::Feeds Widget 1-->
+            <!-- eslint-disable -->
             <div class="card mb-5 mb-xl-8">
               <!--begin::Body-->
               <div class="card-body pb-0">
@@ -241,8 +241,85 @@
               </div>
               <!--end::Body-->
             </div>
-            <!--begin::Feeds Widget 2-->
-            <div v-for="post in posts" :key="post.id" class="card mb-5 mb-xl-8">
+            <div
+              v-if="loading"
+              v-for="skeleton in [0]"
+              :key="skeleton"
+              class="card mb-5 mb-xl-8"
+            >
+              <!--begin::Body-->
+              <div class="card-body pb-0">
+                <!--begin::Header-->
+                <div class="d-flex align-items-center mb-5">
+                  <!--begin::User-->
+                  <div class="d-flex align-items-center flex-grow-1">
+                    <!--begin::Avatar-->
+                    <div class="symbol symbol-45px me-5">
+                      <v-skeleton
+                        width="40px"
+                        height="40px"
+                        borderRadius=".475rem"
+                        class="mb-2"
+                      ></v-skeleton>
+                    </div>
+                    <!--end::Avatar-->
+                    <!--begin::Info-->
+                    <div class="d-flex flex-column">
+                      <div class="d-flex flex-row align-items-center">
+                        <v-skeleton
+                          width="100%"
+                          height="1rem"
+                          class="mb-2"
+                        ></v-skeleton>
+                        <span class="text-gray-400 font-size-12 m-2">
+                          <v-skeleton
+                            width="100%"
+                            height="1rem"
+                            class="mb-2"
+                          ></v-skeleton>
+                        </span>
+                      </div>
+                      <div>
+                        <span class="text-gray-500 fw-bold w-100">
+                          <v-skeleton width="10rem" class="mb-2"></v-skeleton>
+                        </span>
+                      </div>
+                    </div>
+                    <!--end::Info-->
+                  </div>
+                  <!--end::User-->
+                </div>
+                <!--end::Header-->
+                <!--begin::Post-->
+                <div class="mb-5">
+                  <v-skeleton
+                    width="100%"
+                    height="10rem"
+                    class="mb-2"
+                  ></v-skeleton>
+                </div>
+                <!--end::Post-->
+                <!--begin::Separator-->
+                <div class="separator mb-4"></div>
+                <!--end::Separator-->
+                <!--begin::Reply input-->
+                <form class="position-relative mb-6">
+                  <v-skeleton
+                    width="100%"
+                    height="3rem"
+                    class="mb-2"
+                  ></v-skeleton>
+                </form>
+                <!--edit::Reply input-->
+              </div>
+              <!--end::Body-->
+            </div>
+            <div
+              v-if="loadingFirst"
+              v-for="post in posts"
+              :key="post.id"
+              class="card mb-5 mb-xl-8"
+            >
               <!--begin::Body-->
               <div class="card-body pb-0">
                 <!--begin::Header-->
@@ -459,75 +536,108 @@
                     placeholder="Reply.."
                   ></textarea>
                   <div class="position-absolute top-0 end-0 me-n5">
-                    <span
-                      class="btn btn-icon btn-sm btn-active-color-primary pe-0 me-2"
-                    >
-                      <!--begin::Svg Icon | path: icons/duotune/communication/com008.svg-->
-                      <span class="svg-icon svg-icon-3 mb-3">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <path
-                            opacity="0.3"
-                            d="M4.425 20.525C2.525 18.625 2.525 15.525 4.425 13.525L14.825 3.125C16.325 1.625 18.825 1.625 20.425 3.125C20.825 3.525 20.825 4.12502 20.425 4.52502C20.025 4.92502 19.425 4.92502 19.025 4.52502C18.225 3.72502 17.025 3.72502 16.225 4.52502L5.82499 14.925C4.62499 16.125 4.62499 17.925 5.82499 19.125C7.02499 20.325 8.82501 20.325 10.025 19.125L18.425 10.725C18.825 10.325 19.425 10.325 19.825 10.725C20.225 11.125 20.225 11.725 19.825 12.125L11.425 20.525C9.525 22.425 6.425 22.425 4.425 20.525Z"
-                            fill="currentColor"
-                          />
-                          <path
-                            d="M9.32499 15.625C8.12499 14.425 8.12499 12.625 9.32499 11.425L14.225 6.52498C14.625 6.12498 15.225 6.12498 15.625 6.52498C16.025 6.92498 16.025 7.525 15.625 7.925L10.725 12.8249C10.325 13.2249 10.325 13.8249 10.725 14.2249C11.125 14.6249 11.725 14.6249 12.125 14.2249L19.125 7.22493C19.525 6.82493 19.725 6.425 19.725 5.925C19.725 5.325 19.525 4.825 19.125 4.425C18.725 4.025 18.725 3.42498 19.125 3.02498C19.525 2.62498 20.125 2.62498 20.525 3.02498C21.325 3.82498 21.725 4.825 21.725 5.925C21.725 6.925 21.325 7.82498 20.525 8.52498L13.525 15.525C12.325 16.725 10.525 16.725 9.32499 15.625Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </span>
-                      <!--end::Svg Icon-->
-                    </span>
-                    <span
-                      class="btn btn-icon btn-sm btn-active-color-primary ps-0"
-                    >
-                      <!--begin::Svg Icon | path: icons/duotune/general/gen018.svg-->
-                      <span class="svg-icon svg-icon-2 mb-3">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <path
-                            opacity="0.3"
-                            d="M18.0624 15.3453L13.1624 20.7453C12.5624 21.4453 11.5624 21.4453 10.9624 20.7453L6.06242 15.3453C4.56242 13.6453 3.76242 11.4453 4.06242 8.94534C4.56242 5.34534 7.46242 2.44534 11.0624 2.04534C15.8624 1.54534 19.9624 5.24534 19.9624 9.94534C20.0624 12.0453 19.2624 13.9453 18.0624 15.3453Z"
-                            fill="currentColor"
-                          />
-                          <path
-                            d="M12.0624 13.0453C13.7193 13.0453 15.0624 11.7022 15.0624 10.0453C15.0624 8.38849 13.7193 7.04535 12.0624 7.04535C10.4056 7.04535 9.06241 8.38849 9.06241 10.0453C9.06241 11.7022 10.4056 13.0453 12.0624 13.0453Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </span>
-                      <!--end::Svg Icon-->
-                    </span>
+
+                    
                   </div>
                 </form>
                 <!--edit::Reply input-->
               </div>
               <!--end::Body-->
             </div>
-            <!--end::Feeds Widget 2-->
-            <button
-              class="btn btn-primary w-100 text-center"
+            <div
+              v-if="!loadingFirst"
+              v-for="skeleton in [0, 1, 2, 3, 4, 5, 6]"
+              :key="skeleton"
+              class="card mb-5 mb-xl-8"
+            >
+              <!--begin::Body-->
+              <div class="card-body pb-0">
+                <!--begin::Header-->
+                <div class="d-flex align-items-center mb-5">
+                  <!--begin::User-->
+                  <div class="d-flex align-items-center flex-grow-1">
+                    <!--begin::Avatar-->
+                    <div class="symbol symbol-45px me-5">
+                      <v-skeleton
+                        width="40px"
+                        height="40px"
+                        borderRadius=".475rem"
+                        class="mb-2"
+                      ></v-skeleton>
+                    </div>
+                    <!--end::Avatar-->
+                    <!--begin::Info-->
+                    <div class="d-flex flex-column">
+                      <div class="d-flex flex-row align-items-center">
+                        <v-skeleton
+                          width="100%"
+                          height="1rem"
+                          class="mb-2"
+                        ></v-skeleton>
+                        <span class="text-gray-400 font-size-12 m-2">
+                          <v-skeleton
+                            width="100%"
+                            height="1rem"
+                            class="mb-2"
+                          ></v-skeleton>
+                        </span>
+                      </div>
+                      <div>
+                        <span class="text-gray-500 fw-bold w-100">
+                          <v-skeleton width="10rem" class="mb-2"></v-skeleton>
+                        </span>
+                      </div>
+                    </div>
+                    <!--end::Info-->
+                  </div>
+                  <!--end::User-->
+                </div>
+                <!--end::Header-->
+                <!--begin::Post-->
+                <div class="mb-5">
+                  <v-skeleton
+                    width="100%"
+                    height="10rem"
+                    class="mb-2"
+                  ></v-skeleton>
+                </div>
+                <!--end::Post-->
+                <!--begin::Separator-->
+                <div class="separator mb-4"></div>
+                <!--end::Separator-->
+                <!--begin::Reply input-->
+                <form class="position-relative mb-6">
+                  <v-skeleton
+                    width="100%"
+                    height="3rem"
+                    class="mb-2"
+                  ></v-skeleton>
+                </form>
+                <!--edit::Reply input-->
+              </div>
+              <!--end::Body-->
+            </div>
+            <!-- eslint-enable -->
+
+            <div
+              v-if="loadingMore"
               id="kt_widget_5_load_more_btn"
             >
-              <span class="indicator-label">More Feeds</span>
-              <span class="indicator-progress"
-                >Loading...
+              <span class="d-flex flex-row align-items-center justify-content-center"
+                >Carregando mais posts...
                 <span
                   class="spinner-border spinner-border-sm align-middle ms-2"
-                ></span
-              ></span>
-            </button>
+                ></span>
+              </span>
+            </div>
+            <div
+              v-if="!nextPage"
+              id="kt_widget_5_load_more_btn"
+            >
+              <span class="d-flex flex-row align-items-center justify-content-center">
+                Acabou os posts, não tem mais nada!
+              </span>
+            </div>
           </div>
           <!--end::Col-->
           <div class="col-xl-3"></div>
@@ -545,6 +655,7 @@ import DocumentEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 export default {
   data() {
     return {
+      loadingFirst: false,
       description: null,
       user: {
         avatar: null,
@@ -636,6 +747,8 @@ export default {
         },
       },
       loading: false,
+      nextPage: " ",
+      loadingMore: false,
     };
   },
   beforeCreate() {
@@ -655,16 +768,67 @@ export default {
       }
     });
   },
-  async mounted() {
-    //window.KTMenu.init();
-    //window.KTMenu.initGlobalHandlers();
-    //window.KTWidgets.init();
-
+  mounted() {
     this.user = this.user.id != undefined ? this.user.id : this.$root.user;
 
-    await this.getAllCommunity();
+    //const listElm = document.querySelector("#posts");
+    const listElm = document.documentElement;
+    window.onscroll = () => {
+      //console.log(e, listElm);
+      if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+        if (this.nextPage) {
+          this.loadMore();
+        }
+      }
+    };
+
+    this.getAllCommunity();
   },
   methods: {
+    loadMore() {
+      this.loadingMore = true;
+      let tokenAuth = this.$store.state.userAuth.authorization.token;
+
+      let header = {
+        headers: {
+          Authorization: "Bearer " + tokenAuth,
+        },
+      };
+
+      this.axios
+        .get(`${this.nextPage}`, header)
+        .then((response) => {
+          let data = response.data;
+
+          if (data.status == "error") {
+            this.$notify({
+              type: "error",
+              title: "Erro!",
+              text: data.message,
+            });
+
+            return;
+          }
+
+          this.nextPage = data.data.next_page_url;
+
+          this.posts.push(...data.data.data);
+
+          this.loadingMore = false;
+        })
+        .catch((error) => {
+          this.$notify({
+            type: "error",
+            title: "Erro!",
+            text: error.response.data.message,
+          });
+        });
+    },
+
+    setLoadingFirst() {
+      this.loadingFirst = true;
+    },
+
     getAllCommunity() {
       let tokenAuth = this.$store.state.userAuth.authorization.token;
 
@@ -689,9 +853,15 @@ export default {
             return;
           }
 
+          this.nextPage = data.data.next_page_url;
+
           this.posts = data.data.data;
 
-          //console.log(this.posts, "posts");
+          if (!this.loadingFirst) {
+            this.setLoadingFirst();
+          }
+
+          this.loading = false;
         })
         .catch((error) => {
           this.$notify({
@@ -725,8 +895,6 @@ export default {
           this.editorData = "<p>O que você está pensando?</p>";
 
           this.getAllCommunity();
-
-          this.loading = false;
         })
         .catch((error) => {
           this.$notify({

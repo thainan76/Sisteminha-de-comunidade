@@ -11,7 +11,9 @@ import interceptor from './http.js';
 import VueTheMask from 'vue-the-mask';
 import mitt from 'mitt';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import PrimeVue from 'primevue/config';
 
+import Skeleton from 'primevue/skeleton';
 
 const emitter = mitt();
 
@@ -27,7 +29,8 @@ app.use(store);
 app.use(VueAxios, interceptor);
 app.use(VueTheMask);
 app.use(Notifications);
-app.use( CKEditor );
+app.use(CKEditor);
+app.use(PrimeVue);
 
 app.config.globalProperties.$filters = {
     moment(date) {
@@ -36,5 +39,6 @@ app.config.globalProperties.$filters = {
 };
 
 app.config.globalProperties.emitter = emitter;
+app.component('v-skeleton', Skeleton);
 
 app.mount('#kt_body');

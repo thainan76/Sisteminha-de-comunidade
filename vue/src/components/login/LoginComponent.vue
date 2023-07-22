@@ -254,8 +254,7 @@ export default {
     };
   },
   mounted() {
-    //console.log(this.$store.getters.getAuth, 'this.store.getters.getAuth');
-    //console.log(this.$root.$data.host, 'host');
+    window.KTApp.setThemeMode("light");
   },
   methods: {
     ...mapMutations([
@@ -280,11 +279,11 @@ export default {
             this.setAuth(data);
 
             //console.log(this.$store.getters.getAuth, 'this.store.getters.getAuth');
-            //this.$router.push({ name: 'Dashborad' }).then(() => { this.$router.go() });
+            this.$router.push({ name: 'Dashborad' });
 
             // desse jeito da reload indo para rota 
-            const url = new URL('/admin/dashboard', window.location.origin);
-            window.location.href = url.toString();
+            //const url = new URL('/admin/dashboard', window.location.origin);
+            //window.location.href = url.toString();
 
             this.loading = false;
           })

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -32,6 +33,11 @@ class AuthController extends Controller
             }
 
             $user = Auth::user();
+
+            User::where('id', $user->id)->update([
+                "last_login" => now()
+            ]);
+
             return response()->json([
                 'user' => $user,
                 'authorization' => [

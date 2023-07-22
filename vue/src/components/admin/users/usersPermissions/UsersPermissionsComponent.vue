@@ -85,7 +85,32 @@
                 <!--end::Table head-->
                 <!--begin::Table body-->
                 <tbody class="text-gray-600 fw-bold">
-                  <tr v-for="type in types.data" :key="type.id">
+                  <!-- eslint-disable -->
+                  <tr
+                    v-if="loading"
+                    v-for="skeleton in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
+                    :key="skeleton"
+                  >
+                    <td>
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td class="d-flex align-items-center">
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td>
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td>
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td>
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                    <td class="text-end">
+                      <v-skeleton width="100%" height="4rem"></v-skeleton>
+                    </td>
+                  </tr>
+                  <tr v-if="!loading" v-for="type in types.data" :key="type.id">
                     <!--begin::Checkbox-->
                     <td>
                       <div
@@ -160,6 +185,7 @@
                     </td>
                     <!--end::Action=-->
                   </tr>
+                  <!-- eslint-enable -->
                 </tbody>
                 <!--end::Table body-->
               </table>
@@ -212,6 +238,7 @@ export default {
     return {
       types: [],
       permissions: {},
+      loading: false,
     };
   },
   beforeCreate() {
@@ -247,6 +274,7 @@ export default {
     },
 
     getTypes() {
+      this.loading = true;
       let tokenAuth = this.$store.state.userAuth.authorization.token;
 
       let header = {
@@ -261,6 +289,8 @@ export default {
           let data = response.data;
 
           this.types = data.types;
+
+          this.loading = false;
         });
     },
 
