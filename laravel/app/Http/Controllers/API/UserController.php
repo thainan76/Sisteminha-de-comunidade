@@ -33,7 +33,7 @@ class UserController extends Controller
             $user = User::create([
                 'phone' => $request->phone,
                 'cpf' => $request->cpf,
-                'avatar' => $request->avatar,
+                //'avatar' => $request->avatar,
                 'id_users_types' => $request->idUsersTypes,
                 'name' => $request->name,
                 'email' => $request->email,
@@ -205,8 +205,12 @@ class UserController extends Controller
             $user = User::find($request->idUser);
 
             if (!empty($user)) {
-                $avatar = explode("/", $user->avatar);
-                $this->removeImage($avatar[3]);
+
+                if (!empty($user->avatar)) {
+                    $avatar = explode("/", $user->avatar);
+
+                    $this->removeImage($avatar[3]);
+                }
 
                 $update = $user->where('id', $request->idUser)
                     ->update([
