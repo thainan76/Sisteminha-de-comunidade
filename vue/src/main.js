@@ -6,7 +6,6 @@ import store from "./components/store/storeUser.js";
 import VueAxios from 'vue-axios';
 import Notifications from '@kyvg/vue3-notification'
 import moment from 'moment';
-//import VueMoment from 'vue-moment';
 import interceptor from './http.js';
 import VueTheMask from 'vue-the-mask';
 import mitt from 'mitt';

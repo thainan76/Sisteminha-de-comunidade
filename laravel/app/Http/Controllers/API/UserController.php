@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -23,7 +24,7 @@ class UserController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6',
-                'avatar' => 'required',
+                //'avatar' => 'required',
                 'idUsersTypes' => 'required',
                 'phone' => 'required',
                 'cpf' => 'required',
@@ -41,7 +42,10 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Usuário criado com sucesso!'
+                'message' => 'Usuário criado com sucesso!',
+                'data' => [
+                    'idUser' => $user->id
+                ]
             ], 201);
         } catch (\Exception $e) {
             $error = $e->getMessage();
@@ -107,9 +111,12 @@ class UserController extends Controller
                 'email' => 'string|email|max:255|unique:users',
                 'phone' => 'required|string|max:20',
                 'cpf' => 'required|string|max:20',
-                'avatar' => 'required',
+                //'avatar' => 'required',
+                //'avatar' => 'required|image|mimes:jpg,png,jpeg|max:2048',
                 'idUsersTypes' => 'required',
             ]);
+
+            //$image_path = $request->file('avatar')->store('imagesAvatar', 'public');
 
             $user = User::find($request->idUser);
 
@@ -118,7 +125,7 @@ class UserController extends Controller
                     "name" => $request->name,
                     "phone" => $request->phone,
                     "cpf" => $request->cpf,
-                    "avatar" => $request->avatar,
+                    //"avatar" => $request->avatar,
                     "id_users_types" => $request->idUsersTypes
                 ];
 
@@ -164,8 +171,7 @@ class UserController extends Controller
                     ->update([
                         "name" => $request->name,
                         "phone" => $request->phone,
-                        "cpf" => $request->cpf,
-                        "avatar" => $request->avatar
+                        "cpf" => $request->cpf
                     ]);
 
                 if ($update) {
@@ -183,6 +189,56 @@ class UserController extends Controller
         } catch (\Exception $e) {
             $error = $e->getMessage();
             return response()->json(compact('error'), 404);
+        }
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        try {
+            $request->validate([
+                'idUser' => "required",
+                'avatar' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+            ]);
+
+            $image_path = $request->file('avatar')->store('imagesAvatar', 'public');
+
+            $user = User::find($request->idUser);
+
+            if (!empty($user)) {
+                $avatar = explode("/", $user->avatar);
+                $this->removeImage($avatar[3]);
+
+                $update = $user->where('id', $request->idUser)
+                    ->update([
+                        "avatar" => "/storage/" . $image_path
+                    ]);
+
+                if ($update) {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Avatar atualizado com sucesso!'
+                    ], 202);
+                }
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Não foi encontrado o usuário',
+            ], 404);
+        } catch (\Exception $e) {
+            $error = $e->getMessage();
+            return response()->json(compact('error'), 404);
+        }
+    }
+
+    public function removeImage($image)
+    {
+        $file_path = public_path('/storage/imagesAvatar/') . $image;
+
+        if (file_exists($file_path)) {
+            unlink($file_path);
+        } else {
+            print_r('Não achou o arquivo');
         }
     }
 

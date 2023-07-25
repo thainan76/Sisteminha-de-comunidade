@@ -38,6 +38,7 @@ Route::controller(UserController::class)->group(function () {
     Route::delete('/user/delete/{id}', 'delete')->middleware('permissions');
     Route::put('/user/updateEmail', 'updateEmail');
     Route::put('/user/updatePassword', 'updatePassword');
+    Route::post('/user/updateAvatar', 'updateAvatar');
 });
 
 Route::controller(PermissionController::class)->group(function () {
@@ -64,4 +65,5 @@ Route::controller(CoursesController::class)->group(function () {
 Route::controller(CommunityController::class)->group(function () {
     Route::get('/community/getAllPost', 'getAllPost');
     Route::post('/community/createPost', 'createPost');
+    Route::post('/community/uploadImage', 'uploadImage');
 });

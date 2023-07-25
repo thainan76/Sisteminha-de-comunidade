@@ -79,13 +79,13 @@
                   <!--end::Cancel-->
                   <!--begin::Remove-->
                   <!--<span
-                    class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                    data-kt-image-input-action="remove"
-                    data-bs-toggle="tooltip"
-                    title="Remove avatar"
-                  >
-                    <i class="bi bi-x fs-2"></i>
-                  </span>-->
+              class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+              data-kt-image-input-action="remove"
+              data-bs-toggle="tooltip"
+              title="Remove avatar"
+            >
+              <i class="bi bi-x fs-2"></i>
+            </span>-->
                   <!--end::Remove-->
                 </div>
                 <!--end::Image input-->
@@ -217,11 +217,11 @@
           <!--begin::Actions-->
           <div class="card-footer d-flex justify-content-end py-6 px-9">
             <!--<button
-          type="reset"
-          class="btn btn-light btn-active-light-primary me-2"
-        >
-          Cancelar
-        </button>-->
+    type="reset"
+    class="btn btn-light btn-active-light-primary me-2"
+  >
+    Cancelar
+  </button>-->
             <button @click="updateUser()" class="btn btn-primary">
               Atualizar
             </button>
@@ -506,98 +506,98 @@
     <!--end::Sign-in Method-->
     <!--begin::Deactivate Account-->
     <!--<div class="card mb-5">
+<div
+  class="card-header border-0 cursor-pointer"
+  role="button"
+  data-bs-toggle="collapse"
+  data-bs-target="#kt_account_deactivate"
+  aria-expanded="true"
+  aria-controls="kt_account_deactivate"
+>
+  <div class="card-title m-0">
+    <h3 class="fw-bolder m-0">Desativar Conta</h3>
+  </div>
+</div>
+<div id="kt_account_settings_deactivate" class="collapse show">
+  <form id="kt_account_deactivate_form" class="form">
+    <div class="card-body border-top p-9">
       <div
-        class="card-header border-0 cursor-pointer"
-        role="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#kt_account_deactivate"
-        aria-expanded="true"
-        aria-controls="kt_account_deactivate"
+        class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-9 p-6"
       >
-        <div class="card-title m-0">
-          <h3 class="fw-bolder m-0">Desativar Conta</h3>
+        <span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <rect
+              opacity="0.3"
+              x="2"
+              y="2"
+              width="20"
+              height="20"
+              rx="10"
+              fill="currentColor"
+            />
+            <rect
+              x="11"
+              y="14"
+              width="7"
+              height="2"
+              rx="1"
+              transform="rotate(-90 11 14)"
+              fill="currentColor"
+            />
+            <rect
+              x="11"
+              y="17"
+              width="2"
+              height="2"
+              rx="1"
+              transform="rotate(-90 11 17)"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+        <div class="d-flex flex-stack flex-grow-1">
+          <div class="fw-bold">
+            <h4 class="text-gray-900 fw-bolder">
+              Você está desativando sua conta
+            </h4>
+            <div class="fs-6 text-gray-700">
+              Para mais segurança, isso requer que você confirme seu
+              e-mail ou número de telefone quando você redefinir sua
+              senha.
+              <br />
+              <a class="fw-bolder" href="#">Ler mais</a>
+            </div>
+          </div>
         </div>
       </div>
-      <div id="kt_account_settings_deactivate" class="collapse show">
-        <form id="kt_account_deactivate_form" class="form">
-          <div class="card-body border-top p-9">
-            <div
-              class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-9 p-6"
-            >
-              <span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <rect
-                    opacity="0.3"
-                    x="2"
-                    y="2"
-                    width="20"
-                    height="20"
-                    rx="10"
-                    fill="currentColor"
-                  />
-                  <rect
-                    x="11"
-                    y="14"
-                    width="7"
-                    height="2"
-                    rx="1"
-                    transform="rotate(-90 11 14)"
-                    fill="currentColor"
-                  />
-                  <rect
-                    x="11"
-                    y="17"
-                    width="2"
-                    height="2"
-                    rx="1"
-                    transform="rotate(-90 11 17)"
-                    fill="currentColor"
-                  />
-                </svg>
-              </span>
-              <div class="d-flex flex-stack flex-grow-1">
-                <div class="fw-bold">
-                  <h4 class="text-gray-900 fw-bolder">
-                    Você está desativando sua conta
-                  </h4>
-                  <div class="fs-6 text-gray-700">
-                    Para mais segurança, isso requer que você confirme seu
-                    e-mail ou número de telefone quando você redefinir sua
-                    senha.
-                    <br />
-                    <a class="fw-bolder" href="#">Ler mais</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-check form-check-solid fv-row">
-              <input
-                name="deactivate"
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="deactivate"
-              />
-              <label
-                class="form-check-label fw-bold ps-2 fs-6"
-                for="deactivate"
-              >
-                Eu confirmo que minha conta seja desativada
-              </label>
-            </div>
-          </div>
-          <div class="card-footer d-flex justify-content-end py-6 px-9">
-            <button class="btn btn-danger fw-bold">Desativar Conta</button>
-          </div>
-        </form>
+      <div class="form-check form-check-solid fv-row">
+        <input
+          name="deactivate"
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="deactivate"
+        />
+        <label
+          class="form-check-label fw-bold ps-2 fs-6"
+          for="deactivate"
+        >
+          Eu confirmo que minha conta seja desativada
+        </label>
       </div>
-    </div>-->
+    </div>
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+      <button class="btn btn-danger fw-bold">Desativar Conta</button>
+    </div>
+  </form>
+</div>
+</div>-->
     <!--end::Deactivate Account-->
   </div>
   <!--end::Container-->
@@ -929,7 +929,7 @@ export default {
 
           // caso tenha avatar cadastrado
           if (data.user.avatar) {
-            this.styleAvatarBackground = `background: url(${data.user.avatar}); background-size: cover!important;`;
+            this.styleAvatarBackground = `background: url(${this.$root.$data.host}${data.user.avatar}); background-size: cover!important;`;
           }
 
           this.emitUpdateInformationUser(data.user);
@@ -962,6 +962,8 @@ export default {
         return;
       }
 
+      this.user.avatar = files[0];
+
       this.createImage(files[0]);
     },
 
@@ -970,9 +972,11 @@ export default {
       var vm = this;
 
       reader.onload = (e) => {
-        vm.user.avatar = e.target.result;
-        vm.styleAvatarBackground = `background: url(${vm.user.avatar}); background-size: cover!important`;
+        //vm.user.avatar = e.target;
+        vm.styleAvatarBackground = `background: url(${e.target.result}); background-size: cover!important`;
       };
+
+      this.updateAvatar();
 
       reader.readAsDataURL(file);
     },
@@ -1008,7 +1012,6 @@ export default {
                 .replace(")", "")
                 .replace(" ", "")
                 .replace("-", ""),
-              avatar: this.user.avatar,
             },
             header
           )
@@ -1017,7 +1020,53 @@ export default {
 
             this.$notify({
               type: "success",
-              title: "E-mail",
+              //title: "E-mail",
+              text: data.message,
+            });
+
+            this.getInformationUser();
+          })
+          .catch((error) => {
+            this.$notify({
+              type: "error",
+              title: "Erro!",
+              text: error.response.data.message,
+            });
+          });
+      }
+    },
+
+    updateAvatar() {
+      this.resetErrors();
+
+      let tokenAuth = this.$store.state.userAuth.authorization.token;
+
+      let header = {
+        headers: {
+          Authorization: "Bearer " + tokenAuth,
+          "content-type": "multipart/form-data",
+        },
+      };
+
+      let result = this.verifyInformationUserToUpdate();
+
+      const formdata = new FormData();
+      formdata.append("avatar", this.user.avatar);
+      formdata.append("idUser", this.user.id);
+
+      if (result) {
+        this.axios
+          .post(
+            `${this.$root.$data.host}/api/user/updateAvatar`,
+            formdata,
+            header
+          )
+          .then((response) => {
+            let data = response.data;
+
+            this.$notify({
+              type: "success",
+              //title: "E-mail",
               text: data.message,
             });
 

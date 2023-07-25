@@ -48,7 +48,7 @@
                   <div class="d-flex align-items-center flex-grow-1">
                     <!--begin::Avatar-->
                     <div class="symbol symbol-45px me-5">
-                      <img :src="user.avatar" alt="" />
+                      <img :src="$root.$data.host + user.avatar" alt="" />
                     </div>
                     <!--end::Avatar-->
                     <!--begin::Info-->
@@ -282,7 +282,7 @@
                   <div class="d-flex align-items-center flex-grow-1">
                     <!--begin::Avatar-->
                     <div class="symbol symbol-45px me-5">
-                      <img :src="post.user.avatar" alt="" />
+                      <img :src="$root.$data.host + post.user.avatar" alt="" />
                     </div>
                     <!--end::Avatar-->
                     <!--begin::Info-->
@@ -555,6 +555,7 @@
 </template>
 <script>
 import DocumentEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+import UploadAdapter from "../../../uploadAdapter.js";
 
 export default {
   data() {
@@ -568,11 +569,14 @@ export default {
       },
       posts: [],
       editor: DocumentEditor,
-      editorData: "<p>O que você está pensando?</p>",
+      editorData: " ",
       editorConfig: {
         ckfinder: {
-          uploadUrl: "https://page.com/api/uploadckeditor",
+          uploadUrl:
+            this.$root.$data.host +
+            "/api/community/uploadImage?command=QuickUpload&type=Files&responseType=json",
         },
+        placeholder: "O que você está pensando?",
         toolbar: {
           items: [
             "heading",
@@ -586,7 +590,7 @@ export default {
             "outdent",
             "indent",
             "|",
-            //"imageUpload",
+            "imageUpload",
             //"blockQuote",
             //"insertTable",
             "mediaEmbed",
@@ -624,15 +628,6 @@ export default {
             "linkImage",
           ],
         },
-        table: {
-          contentToolbar: [
-            "tableColumn",
-            "tableRow",
-            "mergeTableCells",
-            "tableCellProperties",
-            "tableProperties",
-          ],
-        },
         fontFamily: {
           options: [
             "default",
@@ -649,6 +644,10 @@ export default {
         mediaEmbed: {
           previewsInData: true,
         },
+        link: {
+          addTargetToExternalLinks: true,
+        },
+        extraPlugin: [this.uploader],
       },
       loading: false,
       nextPage: " ",
@@ -675,11 +674,12 @@ export default {
   mounted() {
     this.user = this.user.id != undefined ? this.user.id : this.$root.user;
 
-    //const listElm = document.querySelector("#posts");
     const listElm = document.documentElement;
     window.onscroll = () => {
-      //console.log(e, listElm);
-      if (listElm.scrollTop + listElm.clientHeight >= (listElm.scrollHeight - 150)) {
+      if (
+        listElm.scrollTop + listElm.clientHeight >=
+        listElm.scrollHeight - 150
+      ) {
         if (this.nextPage) {
           if (!this.loadingMore && this.loadingFirst) {
             this.loadMore();
@@ -779,6 +779,16 @@ export default {
     },
 
     setPost() {
+      if (this.editorData.trim() == "") {
+        this.$notify({
+          type: "error",
+          title: "Erro!",
+          text: "Não pode deixar o campo de texto vázio!",
+        });
+
+        return false;
+      }
+
       this.loading = true;
 
       let tokenAuth = this.$store.state.userAuth.authorization.token;
@@ -796,9 +806,7 @@ export default {
           header
         )
         .then(() => {
-          //let data = response.data;
-
-          this.editorData = "<p>O que você está pensando?</p>";
+          this.editorData = " ";
 
           this.getAllCommunity();
         })
@@ -809,6 +817,12 @@ export default {
             text: error.response.data.message,
           });
         });
+    },
+
+    uploader(editor) {
+      editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+        return new UploadAdapter(loader);
+      };
     },
 
     onReady(editor) {

@@ -136,13 +136,13 @@
                     <!--end::Cancel-->
                     <!--begin::Remove-->
                     <!--<span
-                    class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                    data-kt-image-input-action="remove"
-                    data-bs-toggle="tooltip"
-                    title="Remove avatar"
-                  >
-                    <i class="bi bi-x fs-2"></i>
-                  </span>-->
+                  class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                  data-kt-image-input-action="remove"
+                  data-bs-toggle="tooltip"
+                  title="Remove avatar"
+                >
+                  <i class="bi bi-x fs-2"></i>
+                </span>-->
                     <!--end::Remove-->
                   </div>
                   <!--end::Image input-->
@@ -347,7 +347,7 @@ export default {
       },
     };
   },
-  async mounted() { 
+  async mounted() {
     // if have a id in router
     if (this.$route.params.id) {
       await this.getUserById();
@@ -417,6 +417,7 @@ export default {
         return;
       }
 
+      this.dataUser.avatar = files[0];
       this.createImage(files[0]);
     },
 
@@ -425,11 +426,16 @@ export default {
       var vm = this;
 
       reader.onload = (e) => {
-        vm.dataUser.avatar = e.target.result;
-        vm.styleAvatarBackground = `background: url(${vm.dataUser.avatar}); background-size: cover!important`;
+        //vm.dataUser.avatar = e.target.result;
+        vm.styleAvatarBackground = `background: url(${e.target.result}); background-size: cover!important`;
       };
 
       reader.readAsDataURL(file);
+
+      // se estiver editando o usuario
+      if (this.$route.params.id) {
+        this.updateAvatar();
+      }
     },
 
     create() {
@@ -459,7 +465,6 @@ export default {
                 .replace(" ", "")
                 .replace("-", ""),
               cpf: this.dataUser.cpf.replaceAll(".", "").replace("-", ""),
-              avatar: this.dataUser.avatar,
               idUsersTypes: this.dataUser.id_users_types,
               password: this.dataUser.password,
             },
@@ -475,9 +480,7 @@ export default {
               duration: 5000,
             });
 
-            this.$router.push({ name: "Users" });
-
-            this.loading = false;
+            this.updateAvatar(data.data.idUser);
           })
           .catch((error) => {
             if (error.response != undefined) {
@@ -513,7 +516,6 @@ export default {
     },
 
     verifyRequired() {
-      console.log(this.dataUser, "datausers");
       if (this.dataUser.avatar == null || this.dataUser.avatar == "") {
         this.errors.avatar.message =
           "Avatar é obrigatório, por favor, fazer upload";
@@ -586,7 +588,7 @@ export default {
 
           // caso tenha avatar cadastrado
           if (data.user.avatar) {
-            this.styleAvatarBackground = `background: url(${data.user.avatar}); background-size: cover!important;`;
+            this.styleAvatarBackground = `background: url(${this.$root.$data.host}${data.user.avatar}); background-size: cover!important;`;
           }
         })
         .catch((error) => {
@@ -629,7 +631,7 @@ export default {
           name: this.dataUser.name,
           phone: this.dataUser.phone,
           cpf: this.dataUser.cpf,
-          avatar: this.dataUser.avatar,
+          //avatar: this.dataUser.avatar,
           idUsersTypes: this.dataUser.id_users_types,
         };
 
@@ -685,6 +687,59 @@ export default {
             this.loading = false;
           });
       }
+    },
+
+    updateAvatar(id = this.dataUser.id) {
+      this.resetErrors();
+
+      let tokenAuth = this.$store.state.userAuth.authorization.token;
+
+      let header = {
+        headers: {
+          Authorization: "Bearer " + tokenAuth,
+          "content-type": "multipart/form-data",
+        },
+      };
+
+      if (this.dataUser.avatar == null || this.dataUser.avatar == "") {
+        this.errors.avatar.message =
+          "Avatar é obrigatório, por favor, fazer upload";
+        return false;
+      }
+
+      const formdata = new FormData();
+      formdata.append("avatar", this.dataUser.avatar);
+      formdata.append("idUser", id);
+
+      this.axios
+        .post(
+          `${this.$root.$data.host}/api/user/updateAvatar`,
+          formdata,
+          header
+        )
+        .then((response) => {
+          let data = response.data;
+
+          // caso estiver criando o usuário
+          if (!this.$route.params.id) {
+            this.$router.push({ name: "Users" });
+
+            this.loading = false;
+          } else {
+            this.$notify({
+              type: "success",
+              title: "Avatar Atualizado",
+              text: data.message,
+            });
+          }
+        })
+        .catch((error) => {
+          this.$notify({
+            type: "error",
+            title: "Erro!",
+            text: error.response.data.message,
+          });
+        });
     },
 
     resetErrors() {

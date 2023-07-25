@@ -130,7 +130,7 @@
                         <div class="symbol-label">
                           <img
                             v-if="user.avatar"
-                            :src="user.avatar"
+                            :src="$root.$data.host + user.avatar"
                             :alt="user.name"
                             class="w-100"
                             style="object-fit: cover"

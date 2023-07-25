@@ -23,7 +23,7 @@
         data-kt-menu-placement="bottom-end"
       >
         <img
-          :src="user.avatar ? user.avatar : '@/assets/media/avatars/300-1.jpg'"
+          :src="user.avatar ? $root.$data.host + user.avatar : '@/assets/media/avatars/300-1.jpg'"
           alt="user"
           style="object-fit: cover"
         />
@@ -41,7 +41,7 @@
               <img
                 alt="Logo"
                 :src="
-                  user.avatar ? user.avatar : '@/assets/media/avatars/300-1.jpg'
+                  user.avatar ? $root.$data.host + user.avatar : '@/assets/media/avatars/300-1.jpg'
                 "
               />
             </div>

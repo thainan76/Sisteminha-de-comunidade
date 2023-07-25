@@ -11,7 +11,7 @@ class CommunityController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['uploadImage']]);
     }
 
     public function getAllPost()
@@ -66,6 +66,30 @@ class CommunityController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Posts criado com sucesso!',
+            ], 201);
+        } catch (\Exception $e) {
+            $error = $e->getMessage();
+            return response()->json(compact('error'), 404);
+        }
+    }
+
+    public function uploadImage(Request $request)
+    {
+        try {
+            $request->validate([
+                'upload' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+            ]);
+
+            $image_path = $request->file('upload')->store('imagesCommunity', 'public');
+
+            $fileName = pathinfo($image_path, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+
+            return response()->json([
+                'fileName' => $fileName,
+                'uploaded' => 1,
+                'url' => $request->getSchemeAndHttpHost() . '/storage/' . $image_path
             ], 201);
         } catch (\Exception $e) {
             $error = $e->getMessage();

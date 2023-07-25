@@ -101,6 +101,7 @@ export default {
         window.KTDrawer.hideAll();
       }
       
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       this.$router.push({ name: name });
     },
 
