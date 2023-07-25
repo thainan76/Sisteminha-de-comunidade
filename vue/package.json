@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^38.1.1",
     "@ckeditor/ckeditor5-build-decoupled-document": "^38.1.1",
     "@ckeditor/ckeditor5-vue": "^5.1.0",
     "@kyvg/vue3-notification": "^2.9.1",
@@ -16,7 +17,7 @@
     "core-js": "^3.8.3",
     "mitt": "^3.0.1",
     "moment": "^2.29.4",
-    "primevue": "^3.30.2",
+    "primevue": "^3.31.0",
     "vue": "^3.2.13",
     "vue-axios": "^3.5.2",
     "vue-moment": "^4.1.0",
