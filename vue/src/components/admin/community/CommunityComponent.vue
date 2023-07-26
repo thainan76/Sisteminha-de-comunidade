@@ -886,4 +886,8 @@ export default {
 p > img {
   width: 100%;
 }
+
+figure.image > img {
+  width: 100%;
+}
 </style>
