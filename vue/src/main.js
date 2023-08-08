@@ -11,6 +11,7 @@ import VueTheMask from 'vue-the-mask';
 import mitt from 'mitt';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import PrimeVue from 'primevue/config';
+import money from 'v-money';
 
 import Skeleton from 'primevue/skeleton';
 
@@ -24,6 +25,8 @@ require('moment/locale/pt-br');
 const app = createApp(App);
 app.use(router);
 app.use(store);
+// register directive v-money and component <money>
+app.use(money, {precision: 4});
 //app.use(VueAxios, axios);
 app.use(VueAxios, interceptor);
 app.use(VueTheMask);

@@ -20,7 +20,7 @@
             ></span>
             <!--end::Separator-->
             <!--begin::Description-->
-            <span class="text-muted fs-7 fw-bold mt-2">Listagem de cursos</span>
+            <span class="text-muted fs-7 fw-bold mt-2">Criação de curso</span>
             <!--end::Description-->
           </h1>
           <!--end::Title-->
@@ -29,8 +29,21 @@
         <div class="d-flex align-items-center gap-2 gap-lg-3">
           <a
             class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold"
+            @click="back()"
           >
             <span class="indicator-label">Voltar</span>
+          </a>
+
+          <a v-if="courses.id" @click="update()" class="btn btn-sm btn-primary">
+            <span class="indicator-label">Atualizar</span>
+          </a>
+
+          <a
+            v-if="!loading && !courses.id"
+            @click="create()"
+            class="btn btn-sm btn-primary"
+          >
+            <span class="indicator-label">Criar</span>
           </a>
         </div>
       </div>
@@ -69,6 +82,105 @@
                 </div>
               </div>
             </div>
+
+            <div
+              class="d-flex flex-column align-items-center justify-content-center w-100"
+            >
+              <!--begin::Input group-->
+              <div class="d-flex flex-row flex-wrap flex-md-nowrap w-100 gap-2">
+                <div class="col-12 col-md-8">
+                  <div class="form-floating mb-5 w-100">
+                    <input
+                      type="text"
+                      class="form-control form-control-solid"
+                      id="price"
+                      v-model="courses.price"
+                      placeholder="Preço"
+                      v-money="currencyMask"
+                    />
+                    <label for="price">Preço do curso</label>
+                  </div>
+                  <div
+                    v-if="errors.price.message"
+                    class="fv-plugins-message-container invalid-feedback"
+                  >
+                    <div>{{ errors.price.message }}</div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <div class="form-floating mb-5 w-100">
+                    <div
+                      class="form-check form-switch form-check-custom form-check-solid"
+                    >
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        :checked="courses.published"
+                        id="published"
+                        v-on:input="courses.published = $event.target.checked"
+                      />
+                      <label class="form-check-label" for="published">
+                        Ativo/Desativado
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-6 w-100">
+              <label class="col-lg-12 col-form-label fw-bold fs-6"
+                >Imagem</label
+              >
+              <div class="col-lg-12">
+                <div
+                  class="image-input image-input-outline"
+                  data-kt-image-input="true"
+                  style="
+                    background-image: url('assets/media/svg/avatars/blank.svg');
+                  "
+                >
+                  <div
+                    class="image-input-wrapper w-125px h-125px"
+                    :style="styleAvatarBackground"
+                  ></div>
+                  <label
+                    class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                    data-kt-image-input-action="change"
+                    data-bs-toggle="tooltip"
+                    title="Change avatar"
+                  >
+                    <i class="bi bi-pencil-fill fs-7"></i>
+                    <!--begin::Inputs-->
+                    <input
+                      type="file"
+                      name="avatar"
+                      accept=".png, .jpg, .jpeg"
+                      @change="onFileChange"
+                    />
+                  </label>
+                  <span
+                    class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                    data-kt-image-input-action="cancel"
+                    data-bs-toggle="tooltip"
+                    title="Cancel avatar"
+                  >
+                    <i class="bi bi-x fs-2"></i>
+                  </span>
+                </div>
+                <div class="form-text">
+                  Tipos de arquivos permitidos: png, jpg, jpeg.
+                </div>
+                <div
+                  v-if="errors.imagem.message"
+                  class="fv-plugins-message-container invalid-feedback"
+                >
+                  <div>{{ errors.imagem.message }}</div>
+                </div>
+              </div>
+            </div>
+
             <div class="mt-5 mb-5">
               <ckeditor
                 :editor="editor"
@@ -76,88 +188,74 @@
                 @ready="onReady"
                 :config="editorConfig"
               ></ckeditor>
+              <div
+                v-if="errors.description.message"
+                class="fv-plugins-message-container invalid-feedback"
+              >
+                <div>{{ errors.description.message }}</div>
+              </div>
             </div>
           </div>
           <!--end::Body-->
         </div>
         <!--end::About card-->
 
-        <div class="card mb-5">
-          <div class="card-header">
-            <div class="card-title">
-              <h2>Arquivos</h2>
+        <!--
+    <div class="card mb-5">
+      <div class="card-header">
+        <div class="card-title">
+          <h2>Arquivos</h2>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div
+            v-for="documents in [0, 1, 2, 3, 4, 5]"
+            :key="documents"
+            class="col-md-6 col-lg-4 col-xl-3"
+          >
+            <div class="card h-100">
+              <div
+                class="card-body d-flex justify-content-center text-center flex-column p-8"
+              >
+                <a
+                  href="#"
+                  class="text-gray-800 text-hover-primary d-flex flex-column"
+                >
+                  <div class="symbol symbol-60px mb-5">
+                    <img src="@/assets/media/svg/files/doc.svg" alt="" />
+                  </div>
+                  <div class="fs-5 fw-bolder mb-2">CRM App Docs..</div>
+                </a>
+                <div class="fs-7 fw-bold text-gray-400">3 days ago</div>
+              </div>
             </div>
           </div>
-          <div class="card-body">
-            <div class="row">
-              <!--begin::Col-->
-              <div
-                v-for="documents in [0, 1, 2, 3, 4, 5]"
-                :key="documents"
-                class="col-md-6 col-lg-4 col-xl-3"
+          <div class="col-md-6 col-lg-4 col-xl-3">
+            <div
+              class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8"
+            >
+              <img
+                src="assets/media/svg/files/upload.svg"
+                class="mb-5"
+                alt=""
+              />
+              <a href="#" class="text-hover-primary fs-5 fw-bolder mb-2"
+                >File Upload</a
               >
-                <!--begin::Card-->
-                <div class="card h-100">
-                  <!--begin::Card body-->
-                  <div
-                    class="card-body d-flex justify-content-center text-center flex-column p-8"
-                  >
-                    <!--begin::Name-->
-                    <a
-                      href="#"
-                      class="text-gray-800 text-hover-primary d-flex flex-column"
-                    >
-                      <!--begin::Image-->
-                      <div class="symbol symbol-60px mb-5">
-                        <img src="@/assets/media/svg/files/doc.svg" alt="" />
-                      </div>
-                      <!--end::Image-->
-                      <!--begin::Title-->
-                      <div class="fs-5 fw-bolder mb-2">CRM App Docs..</div>
-                      <!--end::Title-->
-                    </a>
-                    <!--end::Name-->
-                    <!--begin::Description-->
-                    <div class="fs-7 fw-bold text-gray-400">3 days ago</div>
-                    <!--end::Description-->
-                  </div>
-                  <!--end::Card body-->
-                </div>
-                <!--end::Card-->
+              <div class="fs-7 fw-bold text-gray-400">
+                Drag and drop files here
               </div>
-              <!--end::Col-->
-              <!--begin::Col-->
-              <div class="col-md-6 col-lg-4 col-xl-3">
-                <!--begin::Card-->
-                <div
-                  class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8"
-                >
-                  <!--begin::Image-->
-                  <img
-                    src="assets/media/svg/files/upload.svg"
-                    class="mb-5"
-                    alt=""
-                  />
-                  <!--end::Image-->
-                  <!--begin::Link-->
-                  <a href="#" class="text-hover-primary fs-5 fw-bolder mb-2"
-                    >File Upload</a
-                  >
-                  <!--end::Link-->
-                  <!--begin::Description-->
-                  <div class="fs-7 fw-bold text-gray-400">
-                    Drag and drop files here
-                  </div>
-                  <!--end::Description-->
-                </div>
-                <!--end::Card-->
-              </div>
-              <!--end::Col-->
             </div>
           </div>
         </div>
-
-        <div class="card mb-5">
+      </div>
+    </div>
+-->
+        <div
+          v-if="courses.id != undefined && courses.id != null"
+          class="card mb-5"
+        >
           <div class="card-header">
             <div
               class="card-title d-flex flex-row justify-content-between w-100"
@@ -165,7 +263,10 @@
               <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <h2>Aulas</h2>
               </div>
-              <div class="d-flex align-items-center gap-2 gap-lg-3">
+              <div
+                class="d-flex align-items-center gap-2 gap-lg-3"
+                @click="goToClassesCreate()"
+              >
                 <a class="btn btn-sm btn-primary">Criar nova aula</a>
               </div>
             </div>
@@ -304,13 +405,24 @@
 </template>
 <script>
 import DocumentEditor from "@ckeditor/ckeditor5-build-decoupled-document";
+//import {VMoney} from 'v-money';
 
 export default {
   data() {
     return {
+      currencyMask: {
+        decimal: ",",
+        thousands: ".",
+        prefix: "R$ ",
+        suffix: "",
+        precision: 2,
+        masked: false,
+      },
+      loading: false,
       courses: {
+        id: null,
         name: null,
-        description: null,
+        imagem: null,
       },
       errors: {
         name: {
@@ -319,13 +431,20 @@ export default {
         description: {
           message: null,
         },
+        imagem: {
+          message: null,
+        },
+        price: {
+          message: null,
+        },
+        published: {
+          message: null,
+        },
       },
       editor: DocumentEditor,
-      editorData: "<p>Descrição do curso</p>",
+      editorData: " ",
       editorConfig: {
-        /*ckfinder: {
-          uploadUrl: "https://page.com/api/uploadckeditor",
-        },*/
+        placeholder: "Descrição do curso",
         toolbar: {
           items: [
             "heading",
@@ -400,10 +519,57 @@ export default {
         },
         licenseKey: "",
       },
+      styleAvatarBackground: " ",
     };
   },
   methods: {
+    onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files;
+
+      if (!files.length) return;
+
+      if (
+        files[0].type != "image/png" &&
+        files[0].type != "image/jpg" &&
+        files[0].type != "image/jpeg"
+      ) {
+        this.$notify({
+          type: "error",
+          title: "Erro!",
+          text: "Tipos de arquivos permitidos: png, jpg, jpeg.",
+        });
+
+        return;
+      }
+
+      this.courses.imagem = files[0];
+
+      this.createImage(files[0]);
+    },
+
+    createImage(file) {
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        //vm.dataUser.avatar = e.target.result;
+        vm.styleAvatarBackground = `background: url(${e.target.result}); background-size: cover!important`;
+      };
+
+      reader.readAsDataURL(file);
+
+      // se estiver editando o usuario
+      /*if (this.$route.params.id) {
+    this.updateOrCreateImagem();
+  }*/
+    },
+
+    back() {
+      this.$router.push({ name: "Courses" });
+    },
+
     openDrownDown() {},
+
     onReady(editor) {
       // Insert the toolbar before the editable area.
       editor.ui
@@ -413,11 +579,257 @@ export default {
           editor.ui.getEditableElement()
         );
     },
+
+    goToClassesCreate() {
+      this.$router.push({ name: "ClassesCreate" });
+    },
+
+    verifyRequired() {
+      if (this.courses.name == null || this.courses.name == "") {
+        this.errors.name.message =
+          "Nome do curso é obrigatório, por favor preencher";
+        return false;
+      }
+
+      if (this.editorData == null || this.editorData == "") {
+        this.errors.description.message =
+          "Descrição do curso é obrigatório, por favor preencher";
+        return false;
+      }
+
+      if (this.courses.imagem == null || this.courses.imagem == "") {
+        this.errors.imagem.message =
+          "Imagem é obrigatório, por favor, fazer upload";
+        return false;
+      }
+
+      if (this.courses.price == null || this.courses.price == 0) {
+        this.errors.price.message = "Preço não pode ser menor do que zero!";
+        return false;
+      }
+
+      return true;
+    },
+
+    create() {
+      let result = this.verifyRequired();
+
+      if (result) {
+        this.loading = true;
+
+        let tokenAuth = this.$store.state.userAuth.authorization.token;
+        let header = {
+          headers: {
+            Authorization: "Bearer " + tokenAuth,
+          },
+        };
+
+        this.axios
+          .post(
+            `${this.$root.$data.host}/api/courses/create`,
+            {
+              name: this.courses.name,
+              description: this.editorData,
+              price: parseFloat(
+                this.courses.price
+                  .replace("R$", "")
+                  .trim()
+                  .replaceAll(".", "")
+                  .replaceAll(",", ".")
+              ),
+              published: this.courses.published,
+            },
+            header
+          )
+          .then((response) => {
+            let data = response.data;
+
+            if (data.message) {
+              this.courses.id = data.course_id;
+              this.updateOrCreateImagem();
+            }
+          })
+          .catch((error) => {
+            if (error.response != undefined) {
+              let data = error.response.data;
+              this.$notify({
+                type: "error",
+                title: "Erro!",
+                text: data.message,
+                duration: 5000,
+              });
+            } else if (error) {
+              this.$notify({
+                type: "error",
+                title: "Erro",
+                text: error,
+                duration: 5000,
+              });
+            }
+
+            this.loading = false;
+          });
+      }
+    },
+
+    update() {
+      let result = this.verifyRequired();
+
+      if (result) {
+        this.loading = true;
+
+        let tokenAuth = this.$store.state.userAuth.authorization.token;
+        let header = {
+          headers: {
+            Authorization: "Bearer " + tokenAuth,
+          },
+        };
+
+        this.axios
+          .put(
+            `${this.$root.$data.host}/api/courses/updateCourse`,
+            {
+              id: this.courses.id,
+              name: this.courses.name,
+              description: this.editorData,
+              published: this.courses.published,
+              price: parseFloat(
+                this.courses.price
+                  .replace("R$", "")
+                  .trim()
+                  .replaceAll(".", "")
+                  .replaceAll(",", ".")
+              ),
+            },
+            header
+          )
+          .then((response) => {
+            let data = response.data;
+
+            if (data.message) {
+              if (!this.courses.image_course.includes("storage")) {
+                this.updateOrCreateImagem();
+              } else {
+                this.$notify({
+                  type: "success",
+                  title: "Sucesso!",
+                  text: data.message,
+                  duration: 5000,
+                });
+              }
+            }
+          })
+          .catch((error) => {
+            if (error.response != undefined) {
+              let data = error.response.data;
+              this.$notify({
+                type: "error",
+                title: "Erro!",
+                text: data.message,
+                duration: 5000,
+              });
+            } else if (error) {
+              this.$notify({
+                type: "error",
+                title: "Erro",
+                text: error,
+                duration: 5000,
+              });
+            }
+
+            this.loading = false;
+          });
+      }
+    },
+
+    updateOrCreateImagem() {
+      let tokenAuth = this.$store.state.userAuth.authorization.token;
+
+      let header = {
+        headers: {
+          Authorization: "Bearer " + tokenAuth,
+          "content-type": "multipart/form-data",
+        },
+      };
+
+      const formdata = new FormData();
+      formdata.append("image_course", this.courses.imagem);
+      formdata.append("idCourse", this.courses.id);
+
+      this.axios
+        .post(
+          `${this.$root.$data.host}/api/courses/createOrUpdateImagem`,
+          formdata,
+          header
+        )
+        .then((response) => {
+          let data = response.data;
+
+          this.$notify({
+            type: "success",
+            title: "Sucesso",
+            text: data.message,
+          });
+
+          //this.$router.push({ name: "Courses" });
+        })
+        .catch((error) => {
+          this.$notify({
+            type: "error",
+            title: "Erro!",
+            text: error.response.data.message,
+          });
+        });
+    },
+
+    getCourse(id) {
+      let tokenAuth = this.$store.state.userAuth.authorization.token;
+
+      let header = {
+        headers: {
+          Authorization: "Bearer " + tokenAuth,
+        },
+      };
+
+      this.axios
+        .get(`${this.$root.$data.host}/api/courses/getCourseById/${id}`, header)
+        .then((response) => {
+          let data = response.data;
+
+          this.courses = data.course;
+
+          this.courses.imagem = data.course.image_course;
+
+          this.editorData = data.course.description;
+          this.styleAvatarBackground = `background: url(${this.$root.$data.host}${data.course.image_course})`;
+        })
+        .catch((error) => {
+          this.$notify({
+            type: "error",
+            title: "Erro!",
+            text: error.response.data.message,
+          });
+        });
+    },
+
+    getClasses() {},
   },
-  mounted() {},
+  mounted() {
+    if (this.$route.params.id) {
+      this.getCourse(this.$route.params.id);
+    }
+  },
 };
 </script>
+
 <style scoped>
+.image-input .image-input-wrapper {
+  width: 560px !important;
+  max-width: 100% !important;
+  height: 400px !important;
+  background-size: cover !important;
+}
+
 .ck-rounded-corners .ck.ck-toolbar,
 .ck.ck-toolbar.ck-rounded-corners {
   border-radius: 0px !important;
@@ -426,9 +838,10 @@ export default {
   border-radius: 0px !important;
 }
 
-.ck-rounded-corners .ck.ck-toolbar, .ck.ck-toolbar.ck-rounded-corners {
-  background: var(--bs-body-bg)!important;
-  border: 1px solid var(--bs-body-bg)!important;
+.ck-rounded-corners .ck.ck-toolbar,
+.ck.ck-toolbar.ck-rounded-corners {
+  background: var(--bs-body-bg) !important;
+  border: 1px solid var(--bs-body-bg) !important;
   padding: 0 var(--ck-spacing-small);
 }
 

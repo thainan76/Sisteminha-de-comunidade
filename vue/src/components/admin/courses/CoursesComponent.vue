@@ -80,7 +80,7 @@
                 <!--end::Table head-->
                 <!--begin::Table body-->
                 <tbody class="text-gray-600 fw-bold">
-                  <tr v-for="course in [0, 1, 2, 3, 4, 5, 6, 7]" :key="course">
+                  <tr v-for="course in courses" :key="course.id">
                     <!--begin::Checkbox-->
                     <td>
                       <div
@@ -94,29 +94,26 @@
                       </div>
                     </td>
                     <!--end::Checkbox-->
-                    <td>Nome curso 1</td>
-                    <td style="font-weight: 300;">
-                      <span class="text-overflow-line-1" >ipsum dolor sit amet, consectetur adipiscing elit.
-                      Quisque hendrerit iaculis congue. Maecenas lobortis
-                      scelerisque pretium. In euismod ante quis sem blandit
-                      iaculis. Integer lectus libero, iaculis id pretium sit
-                      amet, imperdiet vel nulla. Proin tristique varius velit,
-                      vitae viverra risus ultrices eget.</span>
+                    <td>{{ course.name }}</td>
+                    <td style="font-weight: 300">
+                      <span class="text-overflow-line-1" v-html="course.description"></span
+                      >
                     </td>
                     <td>
-                      <div class="badge badge-light fw-bolder">R$ 100,00</div>
+                      <div class="badge badge-light fw-bolder">R$ {{ course.price.toLocaleString('pt-br', {minimumFractionDigits: 2}) }}</div>
                     </td>
                     <td>
-                      <div class="badge badge-light-success">Publicado</div>
+                      <div v-if="course.published" class="badge badge-light-success">Publicado</div>
+                      <div v-if="!course.published" class="badge badge-light-danger">Desativado</div>
                     </td>
                     <td class="text-end">
                       <button
                         class="btn btn-light btn-active-light-primary btn-sm"
                         :class="{
-                          'show menu-dropdown': false,
+                          'show menu-dropdown': course.dropdownAction,
                         }"
                         data-kt-menu-placement="bottom-end"
-                        @click="openDrownDown()"
+                        @click="openDrownDown(course.id)"
                       >
                         Ações
                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
@@ -140,11 +137,11 @@
                       <div
                         class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
                         :class="{
-                          'show menu-dropdown position-absolute': false,
+                          'show menu-dropdown position-absolute': course.dropdownAction,
                         }"
                       >
                         <!--begin::Menu item-->
-                        <div class="menu-item px-3">
+                        <div class="menu-item px-3" @click="edit(course.id)">
                           <a class="menu-link px-3">Editar</a>
                         </div>
                         <!--end::Menu item-->
@@ -176,10 +173,7 @@
 export default {
   data() {
     return {
-      courses: {
-        name: null,
-        description: null,
-      },
+      courses: [],
       errors: {
         name: {
           message: null,
@@ -191,12 +185,56 @@ export default {
     };
   },
   methods: {
-    openDrownDown() {},
+    openDrownDown(id) {
+      this.courses.forEach((course) => {
+        if (course.id == id && !course.dropdownAction) {
+          course.dropdownAction = true;
+          return;
+        }
+
+        course.dropdownAction = false;
+        return;
+      });
+    },
+
+    edit (id) {
+      this.$router.push({ name: "CoursesEdit", params: { id: id } });
+    },
+
     create() {
       this.$router.push({ name: "CoursesCreate" });
     },
+
+    getCourses() {
+      let tokenAuth = this.$store.state.userAuth.authorization.token;
+
+      let header = {
+        headers: {
+          Authorization: "Bearer " + tokenAuth,
+        },
+      };
+
+      this.axios
+        .get(`${this.$root.$data.host}/api/courses/getMyCoursesAuthor`, header)
+        .then((response) => {
+          let data = response.data;
+
+          this.courses = data.data.data;
+
+          console.log(this.courses);
+        })
+        .catch((error) => {
+          this.$notify({
+            type: "error",
+            title: "Erro!",
+            text: error.response.data.message,
+          });
+        });
+    },
   },
-  mounted() {},
+  mounted() {
+    this.getCourses();
+  },
 };
 </script>
 

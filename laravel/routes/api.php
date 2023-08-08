@@ -6,6 +6,7 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\CoursesController;
 use App\Http\Controllers\API\CommunityController;
+use App\Http\Controllers\API\CoursesTypesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,9 +57,10 @@ Route::controller(PermissionController::class)->group(function () {
 
 Route::controller(CoursesController::class)->group(function () {
     Route::post('/courses/create', 'create');
-    Route::get('/courses/getMyCourses', 'getMyCourses');
+    Route::get('/courses/getMyCoursesAuthor', 'getMyCoursesAuthor');
     Route::get('/courses/getCourseById/{id}', 'getCourseById');
     Route::put('/courses/updateCourse', 'updateCourse');
+    Route::post('/courses/createOrUpdateImagem', 'createOrUpdateImagem');
     Route::delete('/courses/delete/{id}', 'delete');
 });
 
@@ -66,4 +68,8 @@ Route::controller(CommunityController::class)->group(function () {
     Route::get('/community/getAllPost', 'getAllPost');
     Route::post('/community/createPost', 'createPost');
     Route::post('/community/uploadImage', 'uploadImage');
+});
+
+Route::controller(CoursesTypesController::class)->group(function () {
+    Route::get('/coursesTypes/getCourseTypes', 'getCourseTypes');
 });

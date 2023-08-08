@@ -13,6 +13,7 @@ import Page403 from "@/components/admin/errors/Error-403.vue";
 import Courses from "@/components/admin/courses/CoursesComponent.vue";
 import CoursesForms from "@/components/admin/courses/CoursesFormsComponent.vue";
 import Community from "@/components/admin/community/CommunityComponent.vue";
+import ClassesForms from "@/components/admin/courses/classes/ClassesFormsComponent.vue";
 
 const routers = [
     {
@@ -128,6 +129,14 @@ const routers = [
                 name: 'CoursesEdit',
                 path: 'courses/edit/:id',
                 component: CoursesForms,
+                meta: {
+                    requiresAuth: true,
+                },
+            },
+            {
+                name: 'ClassesCreate',
+                path: 'courses/classes/create',
+                component: ClassesForms,
                 meta: {
                     requiresAuth: true,
                 },

@@ -18,6 +18,9 @@ php artisan module:enable
 php artisan optimize
 php artisan migrate:fresh
 php artisan db:seed
-php artisan storage:link
 composer update
+php artisan config:cache
+php artisan view:cache
+php artisan route:cache
+php artisan event:cache
 echo ${C}  "App is ready at localhost:8080." ${N}

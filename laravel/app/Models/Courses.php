@@ -26,6 +26,7 @@ class Courses extends Model
         'name',
         'image_course',
         'description',
-        'id_author'
+        'id_author',
+        'price',
     ];
 }
