@@ -1,4 +1,4 @@
-# docker-laravel-vue
+# Docker/Laravel/Vue
 To get started, run `sh init.sh` in the root directory. 
 
 # Getting started
